@@ -140,12 +140,16 @@
         <p>Awtomatikong pag-add ng alert sa repository database</p>
     </div>
 
-    <div style="background: #151515; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); border-left: 3px solid #555;">
-        <strong>Target:</strong> aldrin-tamayo / <input type="text" id="repoName" value="929-alerts" style="width: 120px; padding: 2px; background: #000; border: 1px solid #333; color: #fff; font-size: 11px;"> / <input type="text" id="filePath" value="alerts.json" style="width: 100px; padding: 2px; background: #000; border: 1px solid #333; color: #fff; font-size: 11px;">
-        <br><small style="color: #888;">*Pwedeng palitan ang pangalan ng Repo o File Path kung kinakailangan.</small>
+    <div style="background: #151515; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); border-left: 3px solid var(--primary-color);">
+        <strong>Target Destination:</strong> <span style="color: #fff;">929-fire / 929-alerts / alerts.json</span>
     </div>
 
     <form id="incidentForm">
+        <div class="form-group">
+            <label for="reporterName">Dispatcher / Reporter Name:</label>
+            <input type="text" id="reporterName" required placeholder="E.g., Drin Wx / Dispatcher 01">
+        </div>
+
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -168,12 +172,12 @@
 
         <div class="form-group">
             <label for="location">Eksaktong Lokasyon / Address:</label>
-            <input type="text" id="location" required placeholder="E.g., 9123 Narra St, Barangay Guadalupe, Makati City">
+            <input type="text" id="location" required placeholder="E.g., Sala Nia Road along Tarikan, Cabuyao, Laguna">
         </div>
 
         <div class="form-group">
             <label for="involved">Mga Sangkot (Involved):</label>
-            <input type="text" id="involved" required value="N/A" placeholder="E.g., 2 Motor Vehicles, Residential House, o N/A">
+            <input type="text" id="involved" required value="N/A" placeholder="E.g., 2 motor vehicles, Residential building">
         </div>
 
         <div class="row">
@@ -209,11 +213,14 @@
 </div>
 
 <script>
-    // Credentials na hiniling mong ilagay nang direkta
-    const GITHUB_TOKEN = "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";
+    // ILAGAY MO DITO ANG BAGONG TOKEN MO MULA SA HAKBANG 1
+    const GITHUB_TOKEN = "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"; 
+    
+    // Naka-set na sa inyong organisasyon at repository profile
     const REPO_OWNER = "929-fire";
+    const REPO_NAME = "929-alerts";
+    const FILE_PATH = "alerts.json";
 
-    // Auto-change ng Alert Type text depende sa napiling 10-Code
     const codeMap = {
         "10-70": "Fire Alert",
         "10-50": "Vehicle Accident",
@@ -225,7 +232,6 @@
         document.getElementById('alertType').value = codeMap[this.value] || "Emergency Alert";
     });
 
-    // Auto-update ng Realtime Philippine Clock/Timestamp Format: YYYY-MM-DDTHH:MM:SSAM/PM
     function updateTimestamp() {
         const now = new Date();
         const year = now.getFullYear();
@@ -238,13 +244,12 @@
         const ampm = hours >= 12 ? 'PM' : 'AM';
         
         hours = hours % 12;
-        hours = hours ? hours : 12; // ang 0 ay dapat maging 12
+        hours = hours ? hours : 12; 
         const strTime = String(hours).padStart(2, '0') + ':' + minutes + ':' + seconds + ampm;
         
         document.getElementById('dateTime').value = `${year}-${month}-${day}T${strTime}`;
     }
     
-    // Patakbuhin ang orasan kada segundo habang nakabukas ang form
     setInterval(updateTimestamp, 1000);
     updateTimestamp();
 
@@ -255,21 +260,20 @@
         box.style.display = "block";
     }
 
-    // Main Function para kumonekta sa GitHub API
     document.getElementById('incidentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const submitBtn = document.getElementById('submitBtn');
-        const repoName = document.getElementById('repoName').value.trim();
-        const filePath = document.getElementById('filePath').value.trim();
+        if (GITHUB_TOKEN === "PASTE_YOUR_NEW_TOKEN_HERE" || GITHUB_TOKEN.trim() === "") {
+            showStatus("Error: Palitan mo muna 'yung GITHUB_TOKEN sa loob ng code script!", "error");
+            return;
+        }
 
+        const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         showStatus("Kinokonekta ang GitHub at binabasa ang kasalukuyang alerts.json...", "loading");
 
-        // Bumuo ng kakaibang Random Alert ID base sa timestamp
         const uniqueId = "929-CMD-" + String(Date.now()).slice(-3);
 
-        // Ang bagong object na ipapasok sa loob ng "fire_alerts" array
         const newAlertData = {
             "alert_id": uniqueId,
             "alert_code": document.getElementById('alertCode').value,
@@ -278,10 +282,11 @@
             "involved": document.getElementById('involved').value.trim(),
             "status": document.getElementById('status').value,
             "date_time": document.getElementById('dateTime').value,
-            "notes": document.getElementById('notes').value.trim()
+            "notes": document.getElementById('notes').value.trim(),
+            "reporter": document.getElementById('reporterName').value.trim()
         };
 
-        const url = `https://api.github.com/repos/${REPO_OWNER}/${repoName}/contents/${filePath}`;
+        const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
 
         try {
             let currentSha = null;
@@ -296,42 +301,40 @@
                 "fire_alerts": []
             };
 
-            // 1. Kunin ang kasalukuyang alerts.json sa iyong GitHub repository
             const response = await fetch(url, {
                 headers: {
                     "Authorization": `token ${GITHUB_TOKEN}`,
-                    "Accept": "application/vnd.github.v3+json"
+                    "Accept": "application/vnd.github.v3+json",
+                    "Cache-Control": "no-cache"
                 }
             });
 
             if (response.status === 200) {
                 const fileData = await response.json();
-                currentSha = fileData.sha; // Kailangan ito ng GitHub para payagan ang update
+                currentSha = fileData.sha;
                 
-                // I-decode ang base64 content galing sa GitHub
                 const decodedString = decodeURIComponent(escape(atob(fileData.content)));
                 currentJsonStructure = JSON.parse(decodedString);
             } else if (response.status === 404) {
-                console.log("Wala pang file sa repo. Gagawa ng bago gamit ang default structure.");
+                console.log("File not found, initializing standard file database template.");
+            } else if (response.status === 401) {
+                throw new Error("401 Unauthorized. Expired o Deleted na ang ginamit mong GitHub Token. Gumawa ng bago.");
             } else {
                 throw new Error(`Hindi maka-konekta sa GitHub. Status code: ${response.status}`);
             }
 
-            // Siguraduhing may fire_alerts array sa loob ng JSON structure ninyo
             if (!currentJsonStructure.fire_alerts) {
                 currentJsonStructure.fire_alerts = [];
             }
 
-            // 2. I-unshift ang bagong alert para pumasok ito sa PINAKATAAS ng listahan
+            // I-push sa pinakaunahan ng array para realtime top update
             currentJsonStructure.fire_alerts.unshift(newAlertData);
 
-            // 3. I-convert ang updated object pabalik sa JSON string at i-Base64 encode
             const updatedJsonString = JSON.stringify(currentJsonStructure, null, 2);
             const base64Content = btoa(unescape(encodeURIComponent(updatedJsonString)));
 
-            // 4. I-push pabalik sa GitHub ang binagong alerts.json file
             const pushPayload = {
-                message: `929 Dispatcher Update: Logged ${newAlertData.alert_code} at ${newAlertData.location}`,
+                message: `929 Dispatch Update: Logged ${newAlertData.alert_code} by ${newAlertData.reporter}`,
                 content: base64Content
             };
 
@@ -350,8 +353,7 @@
             });
 
             if (putResponse.ok) {
-                showStatus(`Tagumpay! Nai-post ang ${newAlertData.alert_code} at awtomatikong pumasok na sa alerts.json mo.`, "success");
-                // I-clear ang mga fields maliban sa defaults
+                showStatus(`Tagumpay! Nai-post ang ${newAlertData.alert_code}. Updated na ang alerts.json mo sa GitHub.`, "success");
                 document.getElementById('location').value = "";
                 document.getElementById('involved').value = "N/A";
                 document.getElementById('notes').value = "N/A";
