@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>929 Dispatch Incident Reporter</title>
+    <style>
+        :root {
+            --primary-color: #ff4d4d;
+            --primary-dark: #cc0000;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #ffffff;
+            --text-muted: #b0b0b0;
+            --border-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #2a2a2a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: white;
+            font-size: 15px;
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-submit:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        .status-box {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .status-loading { background-color: #332700; color: #ffcc00; border: 1px solid #664d00; display: block; }
+        .status-success { background-color: #143317; color: #4caf50; border: 1px solid #1e4d22; display: block; }
+        .status-error { background-color: #331414; color: #f44336; border: 1px solid #4d1e1e; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>929 Dispatch Input System</h1>
+        <p>Awtomatikong pag-add ng alert sa repository database</p>
+    </div>
+
+    <div style="background: #151515; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); border-left: 3px solid #555;">
+        <strong>Target:</strong> aldrin-tamayo / <input type="text" id="repoName" value="929-alerts" style="width: 120px; padding: 2px; background: #000; border: 1px solid #333; color: #fff; font-size: 11px;"> / <input type="text" id="filePath" value="alerts.json" style="width: 100px; padding: 2px; background: #000; border: 1px solid #333; color: #fff; font-size: 11px;">
+        <br><small style="color: #888;">*Pwedeng palitan ang pangalan ng Repo o File Path kung kinakailangan.</small>
+    </div>
+
+    <form id="incidentForm">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="alertCode">Alert Code (10-Code):</label>
+                    <select id="alertCode" required>
+                        <option value="10-70">10-70 (Fire Alert / Sunog)</option>
+                        <option value="10-50">10-50 (Vehicle Accident)</option>
+                        <option value="10-16">10-16 (Medical Emergency)</option>
+                        <option value="10-74">10-74 (Rescue / Others)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="alertType">Uri ng Insidente (Text):</label>
+                    <input type="text" id="alertType" value="Fire Alert" readonly style="background-color: #1a1a1a; color: #888;">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Eksaktong Lokasyon / Address:</label>
+            <input type="text" id="location" required placeholder="E.g., 9123 Narra St, Barangay Guadalupe, Makati City">
+        </div>
+
+        <div class="form-group">
+            <label for="involved">Mga Sangkot (Involved):</label>
+            <input type="text" id="involved" required value="N/A" placeholder="E.g., 2 Motor Vehicles, Residential House, o N/A">
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="status">Kasalukuyang Status:</label>
+                    <select id="status" required>
+                        <option value="For Verification">For Verification</option>
+                        <option value="Positive">Positive</option>
+                        <option value="Responding">Responding / En Route</option>
+                        <option value="Under Control">Under Control</option>
+                        <option value="Clear">Clear / Code 10-42</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="dateTime">Petsa at Oras (Awtomatiko):</label>
+                    <input type="text" id="dateTime" readonly style="background-color: #1a1a1a; color: #888;">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Mga Karagdagang Tala (Notes):</label>
+            <textarea id="notes" rows="3" placeholder="E.g., On Going 911, Bureau of Fire Responding, o N/A">N/A</textarea>
+        </div>
+
+        <div id="statusBox" class="status-box"></div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">I-send Alert sa System</button>
+    </form>
+</div>
+
+<script>
+    // Credentials na hiniling mong ilagay nang direkta
+    const GITHUB_TOKEN = "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";
+    const REPO_OWNER = "aldrin-tamayo";
+
+    // Auto-change ng Alert Type text depende sa napiling 10-Code
+    const codeMap = {
+        "10-70": "Fire Alert",
+        "10-50": "Vehicle Accident",
+        "10-16": "Medical Emergency",
+        "10-74": "Rescue / Emergency"
+    };
+
+    document.getElementById('alertCode').addEventListener('change', function() {
+        document.getElementById('alertType').value = codeMap[this.value] || "Emergency Alert";
+    });
+
+    // Auto-update ng Realtime Philippine Clock/Timestamp Format: YYYY-MM-DDTHH:MM:SSAM/PM
+    function updateTimestamp() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        hours = hours % 12;
+        hours = hours ? hours : 12; // ang 0 ay dapat maging 12
+        const strTime = String(hours).padStart(2, '0') + ':' + minutes + ':' + seconds + ampm;
+        
+        document.getElementById('dateTime').value = `${year}-${month}-${day}T${strTime}`;
+    }
+    
+    // Patakbuhin ang orasan kada segundo habang nakabukas ang form
+    setInterval(updateTimestamp, 1000);
+    updateTimestamp();
+
+    function showStatus(message, type) {
+        const box = document.getElementById('statusBox');
+        box.className = "status-box status-" + type;
+        box.innerText = message;
+        box.style.display = "block";
+    }
+
+    // Main Function para kumonekta sa GitHub API
+    document.getElementById('incidentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const repoName = document.getElementById('repoName').value.trim();
+        const filePath = document.getElementById('filePath').value.trim();
+
+        submitBtn.disabled = true;
+        showStatus("Kinokonekta ang GitHub at binabasa ang kasalukuyang alerts.json...", "loading");
+
+        // Bumuo ng kakaibang Random Alert ID base sa timestamp
+        const uniqueId = "929-CMD-" + String(Date.now()).slice(-3);
+
+        // Ang bagong object na ipapasok sa loob ng "fire_alerts" array
+        const newAlertData = {
+            "alert_id": uniqueId,
+            "alert_code": document.getElementById('alertCode').value,
+            "alert_type": document.getElementById('alertType').value,
+            "location": document.getElementById('location').value.trim(),
+            "involved": document.getElementById('involved').value.trim(),
+            "status": document.getElementById('status').value,
+            "date_time": document.getElementById('dateTime').value,
+            "notes": document.getElementById('notes').value.trim()
+        };
+
+        const url = `https://api.github.com/repos/${REPO_OWNER}/${repoName}/contents/${filePath}`;
+
+        try {
+            let currentSha = null;
+            let currentJsonStructure = {
+                "metadata": {
+                    "system_name": "929 Alerts Dispatch System",
+                    "version": "1.12",
+                    "source": "929-API/Drin Wx",
+                    "timezone": "Asia/Manila",
+                    "description": "Real-time alerts monitoring and dispatch system."
+                },
+                "fire_alerts": []
+            };
+
+            // 1. Kunin ang kasalukuyang alerts.json sa iyong GitHub repository
+            const response = await fetch(url, {
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Accept": "application/vnd.github.v3+json"
+                }
+            });
+
+            if (response.status === 200) {
+                const fileData = await response.json();
+                currentSha = fileData.sha; // Kailangan ito ng GitHub para payagan ang update
+                
+                // I-decode ang base64 content galing sa GitHub
+                const decodedString = decodeURIComponent(escape(atob(fileData.content)));
+                currentJsonStructure = JSON.parse(decodedString);
+            } else if (response.status === 404) {
+                console.log("Wala pang file sa repo. Gagawa ng bago gamit ang default structure.");
+            } else {
+                throw new Error(`Hindi maka-konekta sa GitHub. Status code: ${response.status}`);
+            }
+
+            // Siguraduhing may fire_alerts array sa loob ng JSON structure ninyo
+            if (!currentJsonStructure.fire_alerts) {
+                currentJsonStructure.fire_alerts = [];
+            }
+
+            // 2. I-unshift ang bagong alert para pumasok ito sa PINAKATAAS ng listahan
+            currentJsonStructure.fire_alerts.unshift(newAlertData);
+
+            // 3. I-convert ang updated object pabalik sa JSON string at i-Base64 encode
+            const updatedJsonString = JSON.stringify(currentJsonStructure, null, 2);
+            const base64Content = btoa(unescape(encodeURIComponent(updatedJsonString)));
+
+            // 4. I-push pabalik sa GitHub ang binagong alerts.json file
+            const pushPayload = {
+                message: `929 Dispatcher Update: Logged ${newAlertData.alert_code} at ${newAlertData.location}`,
+                content: base64Content
+            };
+
+            if (currentSha) {
+                pushPayload.sha = currentSha;
+            }
+
+            const putResponse = await fetch(url, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Content-Type": "application/json",
+                    "Accept": "application/vnd.github.v3+json"
+                },
+                body: JSON.stringify(pushPayload)
+            });
+
+            if (putResponse.ok) {
+                showStatus(`Tagumpay! Nai-post ang ${newAlertData.alert_code} at awtomatikong pumasok na sa alerts.json mo.`, "success");
+                // I-clear ang mga fields maliban sa defaults
+                document.getElementById('location').value = "";
+                document.getElementById('involved').value = "N/A";
+                document.getElementById('notes').value = "N/A";
+            } else {
+                const errJson = await putResponse.json();
+                throw new Error(errJson.message || "Pumalya ang pagsusulat sa database file.");
+            }
+
+        } catch (error) {
+            console.error(error);
+            showStatus("Error: " + error.message, "error");
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>
