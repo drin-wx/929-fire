@@ -125,11 +125,31 @@
             font-size: 14px;
             text-align: center;
             display: none;
+            line-break: anywhere;
         }
 
         .status-loading { background-color: #332700; color: #ffcc00; border: 1px solid #664d00; display: block; }
         .status-success { background-color: #143317; color: #4caf50; border: 1px solid #1e4d22; display: block; }
         .status-error { background-color: #331414; color: #f44336; border: 1px solid #4d1e1e; display: block; }
+        
+        .destination-badge {
+            background: #151515; 
+            padding: 10px; 
+            border-radius: 6px; 
+            margin-bottom: 20px; 
+            font-size: 12px; 
+            color: var(--text-muted); 
+            border-left: 3px solid var(--primary-color);
+        }
+        .destination-badge select {
+            width: auto;
+            padding: 2px 5px;
+            background: #000;
+            border: 1px solid #333;
+            color: #fff;
+            font-size: 11px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -140,19 +160,18 @@
         <p>Awtomatikong pag-add ng alert sa repository database</p>
     </div>
 
-    <div style="background: #151515; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); border-left: 3px solid var(--primary-color);">
-        <strong>Target Destination:</strong> <span style="color: #fff;">929-fire / </span>
-        <input type="text" id="repoName" value="929-alerts" style="width: 100px; padding: 2px; background: #000; border: 1px solid #333; color: #fff; font-size: 11px;"> / 
-        <input type="text" id="filePath" value="alerts.json" style="width: 90px; padding: 2px; background: #000; border: 1px solid #333; color: #fff; font-size: 11px;">
-        <br><small style="color: #666;">*Maaari mong baguhin ang nakasulat na Repo o File path kung mag-iiba ang iyong repository.</small>
+    <div class="destination-badge">
+        <strong>Target Owner:</strong> 
+        <select id="repoOwnerSelect">
+            <option value="929-fire">929-fire</option>
+            <option value="aldrin-tamayo">aldrin-tamayo</option>
+        </select>
+        | <strong>Repo:</strong> <span style="color: #fff;">929-alerts</span> 
+        | <strong>File:</strong> <span style="color: #ff4d4d; font-weight: bold;">alerts.json</span>
+        <br><small style="color: #666;">*Piliin kung saang account nakalagay ang '929-alerts' repo mo para iwas Error 404.</small>
     </div>
 
     <form id="incidentForm">
-        <div class="form-group">
-            <label for="reporterName">Dispatcher / Reporter Name:</label>
-            <input type="text" id="reporterName" required placeholder="E.g., Drin Wx / Dispatcher 01">
-        </div>
-
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -175,12 +194,12 @@
 
         <div class="form-group">
             <label for="location">Eksaktong Lokasyon / Address:</label>
-            <input type="text" id="location" required placeholder="E.g., Sala Nia Road along Tarikan, Cabuyao, Laguna">
+            <input type="text" id="location" required placeholder="E.g., 9123 Narra St, Barangay Guadalupe, Makati City">
         </div>
 
         <div class="form-group">
             <label for="involved">Mga Sangkot (Involved):</label>
-            <input type="text" id="involved" required value="N/A" placeholder="E.g., 2 motor vehicles, Residential building">
+            <input type="text" id="involved" required value="N/A" placeholder="E.g., 2 Motor Vehicles, Residential House, o N/A">
         </div>
 
         <div class="row">
@@ -216,11 +235,10 @@
 </div>
 
 <script>
-    // Ang bago mong GitHub Token na 100% active at may repo permissions
-    const GITHUB_TOKEN = "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"; 
-    
-    // Naka-hardcode na ang iyong 929-fire organization structure
-    const REPO_OWNER = "929-fire";
+    // Narito ang iyong aktibong token key
+    const GITHUB_TOKEN = "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";
+    const REPO_NAME = "929-alerts";
+    const FILE_PATH = "alerts.json";
 
     const codeMap = {
         "10-70": "Fire Alert",
@@ -233,7 +251,6 @@
         document.getElementById('alertType').value = codeMap[this.value] || "Emergency Alert";
     });
 
-    // Philippine Standard Time Clock Parser
     function updateTimestamp() {
         const now = new Date();
         const year = now.getFullYear();
@@ -246,7 +263,7 @@
         const ampm = hours >= 12 ? 'PM' : 'AM';
         
         hours = hours % 12;
-        hours = hours ? hours : 12; 
+        hours = hours ? hours : 12;
         const strTime = String(hours).padStart(2, '0') + ':' + minutes + ':' + seconds + ampm;
         
         document.getElementById('dateTime').value = `${year}-${month}-${day}T${strTime}`;
@@ -262,18 +279,24 @@
         box.style.display = "block";
     }
 
-    // Submission Handler Engine via GitHub REST API
+    // Ligtas na base64 encoder/decoder para sa mga spaces at unicode symbols
+    function safeAtob(str) {
+        return decodeURIComponent(escape(atob(str.replace(/\s/g, ''))));
+    }
+
+    function safeBtoa(str) {
+        return btoa(unescape(encodeURIComponent(str)));
+    }
+
     document.getElementById('incidentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const submitBtn = document.getElementById('submitBtn');
-        const repoName = document.getElementById('repoName').value.trim();
-        const filePath = document.getElementById('filePath').value.trim();
+        const currentOwner = document.getElementById('repoOwnerSelect').value;
 
         submitBtn.disabled = true;
-        showStatus("Kinokonekta ang GitHub at binabasa ang kasalukuyang database file...", "loading");
+        showStatus("Kinokonekta ang GitHub at binabasa ang kasalukuyang alerts.json...", "loading");
 
-        // Gumawa ng Unique Alert Dispatch Tracking Code
         const uniqueId = "929-CMD-" + String(Date.now()).slice(-3);
 
         const newAlertData = {
@@ -284,11 +307,10 @@
             "involved": document.getElementById('involved').value.trim(),
             "status": document.getElementById('status').value,
             "date_time": document.getElementById('dateTime').value,
-            "notes": document.getElementById('notes').value.trim(),
-            "reporter": document.getElementById('reporterName').value.trim()
+            "notes": document.getElementById('notes').value.trim()
         };
 
-        const url = `https://api.github.com/repos/${REPO_OWNER}/${repoName}/contents/${filePath}`;
+        const url = `https://api.github.com/repos/${currentOwner}/${REPO_NAME}/contents/${FILE_PATH}`;
 
         try {
             let currentSha = null;
@@ -303,7 +325,7 @@
                 "fire_alerts": []
             };
 
-            // 1. Kunin ang lumang records mula sa iyong repository
+            // 1. Kuhanin ang JSON record file mula sa repository mo
             const response = await fetch(url, {
                 headers: {
                     "Authorization": `token ${GITHUB_TOKEN}`,
@@ -316,29 +338,30 @@
                 const fileData = await response.json();
                 currentSha = fileData.sha;
                 
-                const decodedString = decodeURIComponent(escape(atob(fileData.content)));
+                // Decode gamit ang clean space handler function natin para walang string break error
+                const decodedString = safeAtob(fileData.content);
                 currentJsonStructure = JSON.parse(decodedString);
             } else if (response.status === 404) {
-                console.log("File not found, automatic initializing standard template structure.");
+                console.log("Wala pang file. Gagawa ng bagong standard database system JSON structure.");
             } else if (response.status === 401) {
-                throw new Error("401 Unauthorized. Invalid o revoked ang bagong token mo. Check permissions.");
+                throw new Error("401 Unauthorized: Expired o hinarang ni GitHub ang iyong token key.");
             } else {
-                throw new Error(`Error sa pagkonekta. Status: ${response.status}`);
+                throw new Error(`Hindi maka-konekta. Status Code: ${response.status}`);
             }
 
             if (!currentJsonStructure.fire_alerts) {
                 currentJsonStructure.fire_alerts = [];
             }
 
-            // 2. Unshift - Isalpak ang bagong emergency alert sa unahan para itaas agad sa visual alerts page
+            // 2. Isalpak ang bagong data sa unahan ng array list natin
             currentJsonStructure.fire_alerts.unshift(newAlertData);
 
             const updatedJsonString = JSON.stringify(currentJsonStructure, null, 2);
-            const base64Content = btoa(unescape(encodeURIComponent(updatedJsonString)));
+            const base64Content = safeBtoa(updatedJsonString);
 
-            // 3. I-commit at i-upload pabalik sa GitHub ang updated file
+            // 3. I-push pabalik sa target destination ang bagong data update
             const pushPayload = {
-                message: `929 Dispatch Alert: Logged ${newAlertData.alert_code} at ${newAlertData.location}`,
+                message: `929 Dispatcher Update: Logged ${newAlertData.alert_code} at ${newAlertData.location}`,
                 content: base64Content
             };
 
@@ -357,19 +380,18 @@
             });
 
             if (putResponse.ok) {
-                showStatus(`Tagumpay! Nai-post ang ${newAlertData.alert_code}. Updated na ang iyong database file.`, "success");
-                // Reset ang main text areas pagkatapos mag-load
+                showStatus(`Tagumpay! Nai-post ang ${newAlertData.alert_code} at awtomatikong pumasok na sa alerts.json ng repo mo.`, "success");
                 document.getElementById('location').value = "";
                 document.getElementById('involved').value = "N/A";
                 document.getElementById('notes').value = "N/A";
             } else {
                 const errJson = await putResponse.json();
-                throw new Error(errJson.message || "Pumalya ang pag-update sa GitHub content.");
+                throw new Error(errJson.message || "Pumalya ang pagsusulat sa database file.");
             }
 
         } catch (error) {
             console.error(error);
-            showStatus("Error: " + error.message, "error");
+            showStatus(`Error: ${error.message} (Tiyaking tama ang piniling Target Owner sa itaas!)`, "error");
         } finally {
             submitBtn.disabled = false;
         }
