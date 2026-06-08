@@ -1,0 +1,47 @@
+<!-- Footer Container -->
+<footer style="
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+">
+
+    <!-- Content Section -->
+    <div style="flex-grow: 1;">
+        <h1 style="margin: 0 0 10px 0; font-size: 1.0rem;">Cookies Policy!</h1>
+        <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">
+            By using this website, you agree to our terms and conditions. We use cookies to ensure you get the best experience on our site.
+        </p>
+    </div>
+
+    <!-- AGREE Button Section -->
+    <div style="margin-left: 20px;">
+        <button onclick="this.parentElement.parentElement.style.display='none'" style="
+            background: #fff;
+            border: none;
+            color: #333;
+            padding: 10px 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+        ">
+            AGREE
+        </button>
+    </div>
+</footer>
