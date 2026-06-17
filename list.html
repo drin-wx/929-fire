@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>929 Members List</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    font-size:16px;
+    margin:20px;
+    background:#ffffff;
+    color:#000000;
+}
+
+.member{
+    margin:4px 0;
+}
+</style>
+</head>
+<body>
+
+<div id="memberList">Loading...</div>
+
+<script>
+const JSON_URL = "https://929-fire.vercel.app/api/list.json";
+
+async function loadMembers() {
+    try {
+        const response = await fetch(JSON_URL);
+        const data = await response.json();
+
+        const container = document.getElementById("memberList");
+        container.innerHTML = "";
+
+        data.list.forEach(person => {
+
+            const first = (person.first_name || "").trim();
+            const middle = (person.middle_name || "").trim();
+            const last = (person.last_name || "").trim();
+
+            // Skip blank records
+            if (!first && !middle && !last) return;
+
+            const fullName = [first, middle, last]
+                .filter(Boolean)
+                .join(" ");
+
+            const div = document.createElement("div");
+            div.className = "member";
+            div.textContent = `${person.callsign} - ${fullName}`;
+
+            container.appendChild(div);
+        });
+
+        if(container.innerHTML === ""){
+            container.textContent = "No records found.";
+        }
+
+    } catch(error){
+        document.getElementById("memberList").textContent =
+            "Unable to load data.";
+        console.error(error);
+    }
+}
+
+loadMembers();
+</script>
+
+</body>
+</html>
