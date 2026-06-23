@@ -43,6 +43,16 @@ body {
   border-bottom: 1px solid var(--glass-border);
 }
 
+/* --- HERO CENTER LOGO STYLING --- */
+.hero-center-logo {
+  width: clamp(150px, 12vw, 130px); /* Awtomatikong lumiliit sa mobile (80px) at lumalaki sa desktop (130px) */
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto 1px auto; /* Centered at may 20px na puwang sa pagitan ng logo at ng title */
+  display: block;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5)); /* May banayad na shadow para lutang na lutang ang logo mo */
+}
+
 .logo-area { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .logo-area img { width: clamp(45px, 4vw, 55px); height: clamp(40px, 4vw, 52px); object-fit: contain; }
 .logo-title h1 { font-size: clamp(11px, 1.3vw, 15px); font-weight: 800; letter-spacing: 0.5px; color: #fff; line-height: 1.2; }
@@ -123,7 +133,7 @@ body {
 
 .text-glass-shield {
   background: rgba(10, 10, 12, 0.6); /* Mas pinadilim nang kaunti para lalong mabasa */
-  backdrop-filter: blur(1px); /* Dito lang sa box ang may blur para malinaw ang background images sa labas ng card */
+  backdrop-filter: blur(0.5px); /* Dito lang sa box ang may blur para malinaw ang background images sa labas ng card */
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: clamp(30px, 6vw, 55px) clamp(20px, 5vw, 45px);
@@ -137,7 +147,7 @@ body {
   font-weight: 800;
   line-height: 1.2;
   color: #ffffff;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -145,7 +155,7 @@ body {
   font-size: clamp(0.95rem, 1.2vw, 1.15rem);
   color: #f3f4f6;
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* --- RESPONSIVE OTHER MAIN LAYOUTS --- */
