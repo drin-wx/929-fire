@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>929 Fire and Rescue Volunteer</title>
+  <title>929 Fire and Rescue Volunteer Group Inc.</title>
   <link rel="icon" type="image/png" href="image/929.png.png">
   <link rel="apple-touch-icon" href="image/929.png.png">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -12,63 +12,67 @@
 </head>
 <body>
 
-  <header class="hero" id="home">
-    <div class="hero-content">
-      <h2>Leading the way in Emergency Response.</h2>
-      <a href="/about" class="website-link">LEARN MORE</a>
-      <p>a non-profit, volunteer fire and rescue organization primarily operating in the Philippines, committed to emergency response and public service.</p>
+  <!-- MASTER TRUE FULL-SCREEN HERO SLIDESHOW SHOWCASE -->
+  <header class="hero-showcase-master" id="home">
+    
+    <!-- 3 Full Size Active Slide Images (No Blur Engine on Image Layer) -->
+    <div class="hero-slide-container">
+      <div class="main-slide active" style="background-image: url('image/01.png');"></div>
+      <div class="main-slide" style="background-image: url('image/02.png');"></div>
+      <div class="main-slide" style="background-image: url('image/03.png');"></div>
     </div>
-    <div class="slider-container">
-      <div class="slides">
-        <div class="slide" style="background-image: url('image/01.png');"></div>
-        <div class="slide" style="background-image: url('image/02.png');"></div>
-        <div class="slide" style="background-image: url('image/03.png');"></div>
+
+    <!-- Protected Floating Content Card Layout (Dito lang nakalagay ang blur filtration effect para malinaw ang text) -->
+    <div class="hero-overlay-content">
+      <div class="text-glass-shield">
+        <h2>Leading the way in<br>Emergency Response.</h2>
+        <p>The 929 Fire and Rescue Volunteer is a dedicated non-profit group committed to safeguarding lives and properties through prompt emergency response, community education, and proactive disaster preparedness.</p>
       </div>
     </div>
   </header>
 
-  <main class="main-grid">
-    <aside>
-      <h2 class="section-title">Alerts</h2>
-      <div class="alerts-container" id="alertsContainer">
-        <div style="text-align:center; padding:20px; opacity:0.5;">Connecting to server...</div>
+  <!-- STRATEGIC CORE MAIN BODY CONTENT -->
+  <main class="about-section">
+
+    
+    <!-- MISYON AT VISYON INFOCARDS -->
+    <div class="mv-grid">
+      <div class="mv-card">
+        <h3>OUR MISSION</h3>
+        <p>To serve our community with the highest level of care, protection, and education by providing timely and efficient emergency response and proactive safety awareness.</p>
       </div>
-    </aside>
 
-    <section>
-      <h2 class="section-title">Group Updates</h2>
-      
-      <div class="update-card">
-        <div class="update-header">
-          <h3>General Order on the Temporary Prohibition of Boarding BIFRA-Affiliated Fire Trucks.</h3>
-          <a href="image_order/order2s2026.png" class="learn-btn">READ MORE</a>
-        </div>
-        <p>Effective immediately (27th of May 2026), all Officers, Members, and Probies of 929 Fire and Rescue Volunteer are temporarily prohibited from boarding or riding any fire trucks owned by the Barangays of Biñan, Laguna or by volunteer brigades affiliated with or recognized under BIFRA...</p>
-       </div>
+      <div class="mv-card">
+        <h3>OUR VISION</h3>
+        <p>To be a leading and trusted emergency service provider in the Philippines, driven by innovation, dedication, and excellence in public safety and education.</p>
+      </div>
+    </div>
 
-       <br>
+    <br>
 
-       <div class="update-card">
-        <div class="update-header">
-          <h3>WE ARE NOW SEC. REGISTERED!</h3>
-          <a href="https://www.facebook.com/share/p/1Lbb8V9ADm/" class="learn-btn">READ MORE</a>
-        </div>
-        <p>A historic milestone for the entire brotherhood of the 929 Fire Rescue Volunteer Radio Communication Group Inc. We are now officially registered with the Securities and Exchange Commission (SEC)...</p>
-       </div>
+    <!-- FOUNDER BLOCK -->
+    <div class="founder-card">
+      <div class="founder-img-wrapper">
+        <div class="founder-img" style="background-image: url('image/9292.png');"></div>
+      </div>
+      <div class="founder-info">
+        <h3>AUGUSTO V. ALPASAN</h3>
+        <div class="role">Founder</div>
+        <p>recognized as the father of 929 volunteers, exemplified dedication through every challenge and bravery he faced. He risked everything to save lives during disasters, earning him the title of a hero. <br> <br> Now, his son, <strong>Aliant Anthony M. Alpasan</strong>, continues the legacy initiated by his father, ensuring that the 929 Fire and Rescue Volunteer and Radio Communication Organization remains a successful group dedicated to assisting our fellow citizens for free. Even in the absence of the father of 929, the organization continues to thrive, carrying on the mission that was started.</p>
+      </div>
+    </div>
 
-      <br>
+    <!-- PRESTIGE SEC CERTIFICATE SHOWCASE -->
+    <div class="sec-section">
+      <h3>SEC REGISTERED CORPORATION</h3>
+      <p>A historic milestone for the entire of the 929 Fire and Rescue Volunteer - Radio Communication Group Inc. We are officially registered and legally incorporated under the Securities and Exchange Commission as a legitimate, non-profit, non-governmental emergency institution.</p>
+      <div class="sec-number">SEC REG. NO.  2026050249789-03</div>
+      <p style="font-size: 0.85rem; color: #d4af37; opacity: 0.8; letter-spacing: 0.5px; margin-top: 10px;">Registered & Incorporated • Republic of the Philippines</p>
+    </div>
 
-      <div class="update-card">
-        <div class="update-header">
-          <h3>Temporary Suspension of New Member Recruitment.</h3>
-          <a href="image_order/order1s2026.png" class="learn-btn">READ MORE</a>
-        </div>
-        <p>GENERAL, Recruitment for new group members (Probies) will be temporarily suspended starting May 23, 2026, until further notice regarding the next recruitment schedule.</p>
-       </div>
-    </section>
   </main>
 
+  <!-- GLOBAL INITIALIZER SCRIPT -->
   <script src="global-layout.js"></script>
-  <script src="alerts.js"></script>
 </body>
 </html>
