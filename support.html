@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Us - 929 Fire and Rescue Volunteer Group Inc.</title>
+  <link rel="icon" type="image/png" href="image/929.png.png">
+  <link rel="apple-touch-icon" href="image/929.png.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="global-layout.css">
+  
+  <style>
+    /* Custom framework alignment para sa Donation QR elements */
+    .support-layout-container {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .qr-showcase-box {
+      background: var(--card-glass);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .gcash-brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .gcash-brand-header img {
+      height: 35px;
+      width: auto;
+      object-fit: contain;
+    }
+    .qr-frame-1080 {
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 1 / 1; /* Sinisiguro nitong laging square (1080x1080 design layout compatible) */
+      background: #141419;
+      border: 2px dashed rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      margin: 20px auto;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    @media (max-width: 900px) {
+      .support-layout-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero-showcase-master" style="height: 45vh;" id="home">
+    <div class="hero-slide-container">
+      <div class="main-slide active" style="background-image: url('image/03.png'); opacity: 0.3;"></div>
+    </div>
+    <div class="hero-overlay-content">
+      <div class="text-glass-shield" style="padding: 30px; max-width: 750px;">
+        <h2 style="font-size: clamp(1.8rem, 3vw, 2.8rem); margin-bottom: 5px;">SUPPORT OUR MISSION</h2>
+        <p style="color: var(--gold-accent); font-size: 0.9rem; letter-spacing: 1px;">Keep Our Disaster Systems & Communications Live</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="about-section">
+    
+    <div class="support-layout-container">
+      
+      <div>
+        <div class="mv-card" style="margin-bottom: 25px; border-left-color: var(--gold-accent);">
+          <h3 style="color: #fff;">Why Your Support Matters</h3>
+          <p>As a purely non-profit, non-governmental emergency institution, the <strong>929 Fire and Rescue Volunteer - Radio Communication Group Inc.</strong> functions entirely through volunteer dedication and community generosity. Every contribution directly funds the infrastructure needed to protect our local communities for free.</p>
+        </div>
+
+        <div class="mv-grid" style="grid-template-columns: 1fr; gap: 20px; margin-bottom: 0;">
+          <div class="mv-card">
+            <h3>1. Web Infrastructure & Domain Renewal</h3>
+            <p>Donations cover web domain subscriptions and secure database server layers required during rapid alert monitoring.</p>
+          </div>
+
+          <div class="mv-card">
+            <h3>2. Disaster Radio & Dispatch Maintenance</h3>
+            <p>Maintaining active walkie-talkies, stationary base antennas, power supplies, and automated tracking modules requires consistent hardware upkeep. Keeping lines active means we can dispatch teams instantly when calls arrive.</p>
+          </div>
+
+          <div class="mv-card">
+            <h3>3. Free Community Emergency Response</h3>
+            <p>We do not charge citizens for rescue actions, emergency medical services (EMS), or disaster safety training. Financial contributions keep our trucks fueled, medical equipment stocked, and systems updated.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-showcase-box">
+        <div class="gcash-brand-header">
+          <img src="https://images.seeklogo.com/logo-png/52/2/gcash-logo-png_seeklogo-522261.png" alt="GCash" onerror="this.src='https://images.seeklogo.com/logo-png/52/2/gcash-logo-png_seeklogo-522261.png'">
+          <h3 style="font-size: 1.2rem; font-weight: 800; margin: 0; color: #fff;">GCASH DONATION</h3>
+        </div>
+        
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Note: Please include "929 WEBSITE" in your transfer notes, remarks, or message so we can properly track and acknowledge your support!</p>
+        
+        <div class="qr-frame-1080" style="background-image: url('image/qr-code.png');"></div>
+        
+        <div class="sec-number" style="margin-top: 10px; font-size: 1.1rem; padding: 8px 15px;">
+          0939-654-6190
+        </div>
+        <p style="font-size: 0.8rem; color: var(--gold-accent); margin-top: 10px; font-weight: 600;">Account Name: Ari** Tamayo</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="global-layout.js"></script>
+</body>
+</html>
