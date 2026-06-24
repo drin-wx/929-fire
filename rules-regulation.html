@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rules & Regulations - 929 Fire and Rescue Volunteer Group Inc.</title>
+  <link rel="icon" type="image/png" href="image/929.png.png">
+  <link rel="apple-touch-icon" href="image/929.png.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="global-layout.css">
+  
+  <style>
+    /* Custom Styling para sa maayos na dokumentasyon at sa Download Button */
+    .section-title-divider {
+      border-left: 4px solid var(--primary-red);
+      padding-left: 15px;
+      margin: 40px 0 20px 0;
+      color: #fff;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .bullet-list-legal {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .bullet-list-legal li {
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 15px;
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    }
+    .bullet-list-legal li::before {
+      content: "•";
+      position: absolute;
+      left: 5px;
+      top: 0;
+      color: var(--primary-red);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .offense-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+    .badge-warning-level {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold-accent);
+    }
+    .badge-danger-level {
+      background: rgba(230, 30, 30, 0.1);
+      border: 1px solid rgba(230, 30, 30, 0.3);
+      color: #ff4d4d;
+    }
+    .download-section-box {
+      background: radial-gradient(circle at top left, rgba(20, 20, 25, 0.95), rgba(10, 10, 12, 0.98));
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 40px 30px;
+      text-align: center;
+      margin-top: 50px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .btn-download-legal {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--primary-red);
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 35px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(230, 30, 30, 0.4);
+      transition: var(--transition-smooth);
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .btn-download-legal:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(230, 30, 30, 0.6);
+      background: #ff2a2a;
+    }
+    .btn-download-legal svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero-showcase-master" style="height: 45vh;" id="home">
+    <div class="hero-slide-container">
+      <div class="main-slide active" style="background-image: url('image/02.png'); opacity: 0.35;"></div>
+    </div>
+    <div class="hero-overlay-content">
+      <div class="text-glass-shield" style="padding: 30px; max-width: 850px;">
+        <h2 style="font-size: clamp(1.8rem, 3.5vw, 3rem); margin-bottom: 5px;">RULES & REGULATIONS</h2>
+        <p style="color: var(--gold-accent); font-size: 0.9rem; letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">Official Constitutional Guidelines of the Group</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="about-section">
+
+    <div class="section-title-divider">Core of Articles</div>
+    
+    <div class="mv-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+      
+      <div class="mv-card">
+        <h3>Article I – Participation</h3>
+        <ul class="bullet-list-legal">
+          <li><strong>Section 1.</strong> Members are expected to arrive on time for all meetings, deployments, and call‑outs to ensure smooth coordination, proper flow of activities, and the safety of everyone involved.</li>
+          <li><strong>Section 2.</strong> Members must inform the officers ahead of time if they will be absent or running late so plans can be adjusted and responsibilities can be reassigned properly.</li>
+          <li><strong>Section 3.</strong> Members are encouraged to take part actively in all training and official activities to strengthen teamwork of the group, improve skills, and maintain readiness during emergency situations.</li>
+        </ul>
+      </div>
+
+      <div class="mv-card" style="border-left-color: var(--gold-accent);">
+        <h3>Article II – Dress Code and Equipments</h3>
+        <ul class="bullet-list-legal">
+          <li><strong>Section 1.</strong> The uniform of 929 must always be worn during operations, activities, and other group events. However, if the uniform is dirty or if a member does not have the group uniform, it is required to wear a black T-shirt, pants, and shoes to maintain a formal appearance.</li>
+          <li><strong>Section 2.</strong> All members must purchase or acquire their official uniforms, and they are required to have a valid uniform for a duration of one year. If they do not possess one, it will be considered their first offense of violation.</li>
+          <li><strong>Section 3.</strong> All members must purchase or acquire their official IDs of the group, and they are required to have a valid ID for a duration of 5 months. If they do not possess one, it will be considered their first offense of violation.</li>
+          <li><strong>Section 4.</strong> Members are encouraged to use their uniforms for various activities outside the group, except for casual outings, social gatherings, drinking events, or showing off to others. It should be worn appropriately.</li>
+          <li><strong>Section 5.</strong> Each member must have their own personal protective equipment (PPE) for various purposes. BORROWING IS PROHIBITED (Article 6). Members should not wear any equipment belonging to others, especially in public, unless permission has been granted.</li>
+          <li><strong>Section 6.</strong> Group/Non-Group equipment responsible for ensuring each item is used with care, protected from damage, and maintained so it remains ready for operations or activity. Ensure that all personal and team equipment is well-maintained to guarantee proper functionality during emergencies and events.</li>
+          <li><strong>Section 7.</strong> Return borrowed items after use to help keep everything organized, available, and in good condition for the next team member who may urgently need them.</li>
+          <li><strong>Section 8.</strong> No unauthorized use of IDs, uniforms, radio frequency, or vehicles to maintain safety, protect the group’s identity, and prevent misuse that could affect ongoing work or operations.</li>
+        </ul>
+      </div>
+
+      <div class="mv-card" style="border-left-color: var(--gold-accent);">
+        <h3>Article III – Safety Protocols</h3>
+        <ul class="bullet-list-legal">
+          <li><strong>Section 1.</strong>Follow all safety procedures during every activity and operation to protect yourself and others at all times. </li>
+          <li><strong>Section 2.</strong>Do not perform any task without clear instruction, proper guidance, or the presence of an authorized supervisor or ground commander.</li>
+          <li><strong>Section 3.</strong>Report any safety concern or potential danger immediately so the proper steps can be taken.</li>
+          <li><strong>Section 4.</strong> Entering in an area without proper protective equipment and training is strictly prohibited. The same on Article 5, Section 2 when giving first aid to someone with an external or internal fracture or wound. Always ask for permission before touching or helping the patient.</li>
+        </ul>
+      </div>
+
+      <div class="mv-card">
+        <h3>Article IV – Communication</h3>
+        <ul class="bullet-list-legal">
+          <li><strong>Section 1.</strong>GC is strictly for official announcements and coordination. It serves as the main space for sharing clear instructions, schedules, and important reminders to keep everyone aligned.</li>
+          <li><strong>Section 2.</strong>Unrelated chats, spam, and unnecessary replies are discouraged to maintain order in the group. This helps ensure that important messages remain easy to find and understand.</li>
+          <li><strong>Section 3.</strong>Prompt responses to roll calls and important updates are expected, as these messages help track readiness, availability, and immediate actions when needed.</li>
+          <li><strong>Section 4.</strong>Members are not allowed to leave the official group chat without informing or securing permission from the officers or administration. Leaving the GC without valid reason may be considered a violation of group coordination and communication protocols.</li>
+        </ul>
+      </div>
+
+      <div class="mv-card">
+        <h3>Article V - Professionalism, Confidentiality and Discipline</h3>
+        <ul class="bullet-list-legal">
+          <li><strong>Section 1.</strong>Handle all information, photos, and reports with great care. Do not share anything outside the group without clear approval or permission.</li>
+          <li><strong>Section 2.</strong>Protect the personal details of members and anyone involved in an incident to ensure their safety and dignity</li>
+          <li><strong>Section 3.</strong>Every member is expected to follow the group rules to keep duties and operations running smoothly.</li>
+          <li><strong>Section 4.</strong>Show respect at all times, both in main GC (Group Chat) or other GC by organising the group and on-ground by treating every member with kindness and understanding.</li>
+          <li><strong>Section 5.</strong>No offensive, rude, or unnecessary messages, allowing discussions to remain professional and welcoming.</li>
+          <li><strong>Section 6.</strong>Follow the chain of command, supervisor and respect officer instructions so tasks are carried out smoothly, safely, and without confusion. The decisions of officers must be acknowledged and followed as a sign of respect for leadership.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title-divider">Offenses & Disciplinary Actions</div>
+    
+    <div class="mv-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+      
+      <div class="mv-card">
+        <div class="offense-badge badge-warning-level">First Offense</div>
+        <h3>Verbal or Written Warning</h3>
+        <p>The member shall receive an official sealed letter warning issued by the 929 System Administration containing the full name, nature of violation, statement of facts, and supporting evidence. The member is given <strong>seven (7) days</strong> to respond and submit their explanation. Failure to respond within the given period shall automatically elevate the case to the Second Offense.</p>
+      </div>
+
+      <div class="mv-card">
+        <div class="offense-badge badge-warning-level" style="background: rgba(212,140,55,0.1); border-color: rgba(212,140,55,0.3); color: #e6951e;">Second Offense</div>
+        <h3>Formal Investigation</h3>
+        <p><strong>Section 1:</strong> The member shall be added to an official group chat where officers and administrators will formally question and discuss the incident.</p>
+        <br>
+        <p><strong>Section 2:</strong> If the member refuses to respond, authorized officers may conduct an unannounced official visitation to the member's residence to personally hear their explanation.</p>
+        <br>
+        <p><strong>If the member is unavailable, refuses to appear, or continues to avoid communication, the case shall proceed to the Third Offense.</strong></p>
+      </div>
+
+      <div class="mv-card" style="border-left-color: #ff4d4d;">
+        <div class="offense-badge badge-danger-level">Third Offense</div>
+        <h3>Final Disciplinary Action</h3>
+        <p>If the member continuously ignores official letters, social media communications, and distributed notices despite multiple opportunities, the case proceeds to final status. The Chief of Administrative Affairs, with the approval of the President, has the authority to impose the highest penalty: <strong>removal or expulsion from the group</strong>.</p>
+      </div>
+
+    </div>
+
+    <div class="mv-grid" style="grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 25px;">
+      <div class="mv-card" style="border-left-color: #ff4d4d;">
+        <h3>Severe Violations & Expulsion</h3>
+        <p>Any member who commits a severe violation that endangers the group, its members, or the public (such as physical assault, theft, criminal acts, or serious misconduct) shall be subject to <strong>immediate permanent expulsion</strong> without applying the standard three-offense system. The group may also officially record and distribute the disciplinary action to affiliated organizations.</p>
+      </div>
+
+      <div class="mv-card" style="border-left-color: var(--gold-accent);">
+        <h3>Proposals for New Rules</h3>
+        <p>Members and officers are allowed to propose additional rules for the improvement of the group. Every proposal must include a complete explanation, purpose, supporting facts, evidence, and potential benefits. All entries will undergo tight review by the administration for final approval.</p>
+      </div>
+    </div>
+
+    <div class="download-section-box">
+      <h3 style="color: #fff; font-weight: 800; font-size: 1.4rem; margin-bottom: 10px;">DOWNLOAD ORIGINAL DOCUMENT</h3>
+      <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 20px; font-size: 0.95rem;">
+        Click the button below to download the official, untampered original Word copy of the Rules and Regulations, formally signed and ratified by the Fire Chief and Group President.
+      </p>
+      
+      <a href="files/929-RULES-REGULATIONS-SIGNED.docx" download class="btn-download-legal">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 20h14v-2H5v2zm7-18L5.33 11h4V16h5.34v-5h4L12 2z"/>
+        </svg>
+        Download (DOCX)
+      </a>
+    </div>
+
+  </main>
+
+  <script src="global-layout.js"></script>
+</body>
+</html>
