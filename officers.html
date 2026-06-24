@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Officers - 929 Fire and Rescue Volunteer Group Inc.</title>
+  <link rel="icon" type="image/png" href="image/929.png.png">
+  <link rel="apple-touch-icon" href="image/929.png.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="global-layout.css">
+  
+  <style>
+    /* Premium Custom Officer Components */
+    .tier-title-divider {
+      border-left: 4px solid var(--gold-accent);
+      padding-left: 15px;
+      margin: 45px 0 25px 0;
+      color: #fff;
+      font-weight: 800;
+      font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Master Fully Responsive Card Grid */
+    .officers-responsive-grid {
+      display: grid;
+      /* Default structure for mobile: 1 Column */
+      grid-template-columns: 1fr;
+      gap: 25px;
+      margin-bottom: 20px;
+    }
+
+    /* Screen Breakpoints for Tablet & Laptops (Sizes Column Compatibility) */
+    @media (min-width: 576px) {
+      .officers-responsive-grid { grid-template-columns: repeat(2, 1fr); } /* 2 Columns on Small Tablets */
+    }
+    @media (min-width: 992px) {
+      .officers-responsive-grid { grid-template-columns: repeat(3, 1fr); } /* 3 Columns on Medium Laptops */
+    }
+    @media (min-width: 1200px) {
+      .officers-responsive-grid { grid-template-columns: repeat(4, 1fr); } /* 4 Columns on Large Desktops */
+    }
+
+    /* Command Structure Centering Override */
+    .grid-center-tier {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+    }
+    .grid-center-tier .officer-card-premium {
+      width: 100%;
+      max-width: 320px;
+    }
+
+    /* Officer Presentation Card Layout */
+    .officer-card-premium {
+      background: var(--card-glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .officer-card-premium:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-red);
+      box-shadow: 0 15px 30px rgba(230, 30, 30, 0.15);
+    }
+    
+    /* Placeholder Framed Circle Shield for Profile Picture */
+    .profile-image-frame {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #141419;
+      border: 3px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 20px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+    }
+    .officer-card-premium:hover .profile-image-frame {
+      border-color: var(--primary-red);
+      transform: scale(1.03);
+    }
+    .profile-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Typography Styles */
+    .officer-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .officer-position {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gold-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.3;
+    }
+    .group-tag-shield {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      background: rgba(230, 30, 30, 0.1);
+      color: var(--primary-red);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(230, 30, 30, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero-showcase-master" style="height: 45vh;" id="home">
+    <div class="hero-slide-container">
+      <div class="main-slide active" style="background-image: url('image/01.png'); opacity: 0.35;"></div>
+    </div>
+    <div class="hero-overlay-content">
+      <div class="text-glass-shield" style="padding: 30px; max-width: 850px;">
+        <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.8rem); margin-bottom: 5px;">OUR OFFICERS</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; text-transform: lowercase;">929 Fire and Rescue Volunteer - Radio Communication Incorporated</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="about-section" style="padding-top: 10px;">
+
+    <div class="tier-title-divider" style="border-left-color: var(--primary-red);">Leadership</div>
+    <div class="grid-center-tier">
+      
+      <div class="officer-card-premium" style="border-top: 3px solid var(--primary-red);">
+        <div class="group-tag-shield">929-01</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Aliant Anthony M. Alpasan</div>
+        <div class="officer-position">Group President / Fire Chief</div>
+      </div>
+
+      <div class="officer-card-premium" style="border-top: 3px solid var(--primary-red);">
+        <div class="group-tag-shield">929-02</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Jonas Sumadsad Natanauan</div>
+        <div class="officer-position">Group Vice President / Chief Adviser / Safety Officer</div>
+      </div>
+
+    </div>
+
+
+    <div class="tier-title-divider">Administrative</div>
+    <div class="officers-responsive-grid">
+      
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-03</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Aldrin B. Tamayo</div>
+        <div class="officer-position">Group Administrative Officer</div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-08</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Hershey Laude Fabra</div>
+        <div class="officer-position">Group Assistant Administrative Officer</div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-56</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Heart Castillo Navarro</div>
+        <div class="officer-position">Group Assistant Administrative Officer</div>
+      </div>
+
+    </div>
+
+
+    <div class="tier-title-divider" style="border-left-color: #ff4d4d;">Operations & Technical</div>
+    <div class="officers-responsive-grid">
+      
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-16</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Edward Aloria Habig</div>
+        <div class="officer-position">Group Chief of Operation</div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-09</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Segarra Danilo Condicion Jr.</div>
+        <div class="officer-position">Group Chief of Rescue <br><span style="font-size: 0.75rem; color: var(--text-muted);">(Under Operation)</span></div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-35</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Jesus Belen Moreno</div>
+        <div class="officer-position">Group Chief of Fire <br><span style="font-size: 0.75rem; color: var(--text-muted);">(Under Operation)</span></div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-04</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Rolly Saturinas Andaluz</div>
+        <div class="officer-position">Group Chief of Communication</div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-19</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Luis Cerda Villaflores</div>
+        <div class="officer-position">Group Assistant Communication</div>
+      </div>
+
+    </div>
+
+
+    <div class="tier-title-divider">Supervisor</div>
+    <div class="officers-responsive-grid">
+      
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-12</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Manuel Angelo Salvador Badiola</div>
+        <div class="officer-position">Group Team Leader of Santa Rosa City</div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-14</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Joshua B. Mendoza</div>
+        <div class="officer-position">Group Team Leader of Cabuyao City</div>
+      </div>
+    </div>
+
+    <div class="tier-title-divider">Group Adviser</div>
+    <div class="officers-responsive-grid">
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-64</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Ramon Gonzaga Ribon</div>
+        <div class="officer-position">Group Adviser <br><span style="font-size: 0.75rem; color: var(--text-muted);">(Under Vice President)</span></div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">929-10</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Roel Tolentino Galario</div>
+        <div class="officer-position">Group Adviser <br><span style="font-size: 0.75rem; color: var(--text-muted);">(Under Vice President)</span></div>
+      </div>
+
+      <div class="officer-card-premium">
+        <div class="group-tag-shield">...</div>
+        <div class="profile-image-frame">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="Profile Placeholder">
+        </div>
+        <div class="officer-name">Jun Aurelio</div>
+        <div class="officer-position">Group Adviser <br><span style="font-size: 0.75rem; color: var(--text-muted);">(Under Vice President)</span></div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="global-layout.js"></script>
+</body>
+</html>
