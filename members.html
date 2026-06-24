@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Members - 929 Fire and Rescue Volunteer</title>
+  <link rel="icon" type="image/png" href="image/929.png.png">
+  <link rel="apple-touch-icon" href="image/929.png.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="global-layout.css">
+
+  <style>
+    /* --- CUSTOM MEMBERS COMPACT LIST STYLES --- */
+    .members-container {
+      max-width: 1200px;
+      margin: 120px auto 60px;
+      padding: 0 5%;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .page-header h2 span {
+      color: var(--primary-red);
+    }
+
+    .page-header p {
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      margin-top: 10px;
+    }
+
+    /* --- LIVE SEARCH BAR STYLING --- */
+    .search-wrapper {
+      max-width: 500px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+
+    .search-input-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-input-container i {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      transition: var(--transition-smooth);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 15px 20px 15px 55px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(15, 15, 20, 0.8);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      outline: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: var(--transition-smooth);
+    }
+
+    /* Umiilaw na red border kapag nandoon ang cursor */
+    .search-box:focus {
+      border-color: var(--primary-red);
+      box-shadow: 0 0 15px rgba(230, 30, 30, 0.2);
+    }
+
+    .search-box:focus + i {
+      color: var(--primary-red);
+    }
+
+    .loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      color: var(--primary-red);
+      font-size: 1.5rem;
+      gap: 15px;
+    }
+
+    /* Column Layout para sa Listahan */
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 15px;
+    }
+
+    /* Compact Row/List Design */
+    .member-list-item {
+      background: var(--card-glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    /* Efekto kapag tinatago ang hindi kasama sa search query */
+    .member-list-item.hidden {
+      display: none !important;
+    }
+
+    .member-list-item:hover {
+      transform: translateX(3px);
+      border-color: rgba(230, 30, 30, 0.3);
+      box-shadow: 0 5px 15px rgba(230, 30, 30, 0.08);
+    }
+
+    /* Avatar sa Kaliwa */
+    .member-avatar-wrapper {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .member-avatar {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #141419;
+      border: 2px solid var(--glass-border);
+      object-fit: cover;
+    }
+
+    /* Status Indicator Dot */
+    .status-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #0f0f12;
+    }
+
+    .status-active {
+      background: #10b981;
+    }
+
+    .status-inactive {
+      background: #ef4444;
+    }
+
+    /* Details sa Kanan */
+    .member-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .member-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+      line-height: 1.2;
+      text-transform: capitalize;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .member-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .member-callsign {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: var(--gold-accent);
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.06);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px dashed rgba(212, 175, 55, 0.15);
+      letter-spacing: 0.5px;
+    }
+
+    .status-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* No Match Alert Box */
+    #noMatchMessage {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--text-muted);
+      padding: 30px;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="members-container">
+    <div class="page-header">
+      <h2>Our 929 Members</h2>
+      <p>Emergency Responders and Radio Communicators dedicated to save lives and properties.</p>
+    </div>
+
+    <div class="search-wrapper">
+      <div class="search-input-container">
+        <input type="text" id="memberSearch" class="search-box" placeholder="Search by name or callsign...">
+        <i class="fas fa-search"></i>
+      </div>
+    </div>
+
+    <div id="loading" class="loader">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Loading member database...</p>
+    </div>
+
+    <div class="members-grid" id="membersGrid" style="display: none;"></div>
+  </main>
+
+  <script src="global-layout.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const jsonUrl = "https://929-fire.vercel.app/api/list.json";
+      const defaultProfilePic = "https://cdn-icons-png.flaticon.com/512/3135/3135768.png";
+      
+      const loadingDiv = document.getElementById("loading");
+      const membersGrid = document.getElementById("membersGrid");
+      const searchBox = document.getElementById("memberSearch");
+
+      fetch(jsonUrl)
+        .then(response => {
+          if (!response.ok) throw new Error("Network error");
+          return response.json();
+        })
+        .then(data => {
+          loadingDiv.style.display = "none";
+          membersGrid.style.display = "grid";
+
+          const rawList = Array.isArray(data) ? data : (data.members || data.list || []);
+          let validMembersCount = 0;
+
+          rawList.forEach(member => {
+            const firstName = member.first_name ? member.first_name.trim() : "";
+            const middleName = member.middle_name ? member.middle_name.trim() : "";
+            const lastName = member.last_name ? member.last_name.trim() : "";
+
+            // Laktawan ang blangkong entry sa listahan niyo
+            if (!firstName && !lastName) return;
+
+            const fullName = `${firstName} ${middleName} ${lastName}`.replace(/\s+/g, ' ').trim();
+            const callSign = member.callsign || member.call_sign || "NO CALLSIGN";
+            const currentStatus = (member.status || "Active").trim();
+
+            const isCardActive = currentStatus.toLowerCase() === "active";
+            const statusClass = isCardActive ? "status-active" : "status-inactive";
+
+            validMembersCount++;
+
+            // Data attributes na gagamitin para sa search indexing (naka-lowercase para accurate)
+            const itemHTML = `
+              <div class="member-list-item" data-name="${fullName.toLowerCase()}" data-callsign="${callSign.toLowerCase()}">
+                <div class="member-avatar-wrapper">
+                  <img src="${defaultProfilePic}" alt="${fullName}" class="member-avatar">
+                  <span class="status-dot ${statusClass}"></span>
+                </div>
+                <div class="member-details">
+                  <h3 class="member-name">${fullName}</h3>
+                  <div class="member-meta">
+                    <span class="member-callsign">${callSign}</span>
+                    <span class="status-text">${currentStatus}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+            membersGrid.insertAdjacentHTML("beforeend", itemHTML);
+          });
+
+          if (validMembersCount === 0) {
+            membersGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No registered members found.</p>`;
+            return;
+          }
+
+          // Maglagay ng mensahe para sa mga pagkakataong walang tugmang resulta sa paghahanap
+          membersGrid.insertAdjacentHTML("beforeend", `<div id="noMatchMessage" style="display: none;"><i class="fas fa-search-minus"></i> No matching members found.</div>`);
+
+          // REAL-TIME SEARCH BOX LISTENER
+          searchBox.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const items = document.querySelectorAll(".member-list-item");
+            let visibleCount = 0;
+
+            items.forEach(item => {
+              const nameIndex = item.getAttribute("data-name");
+              const callsignIndex = item.getAttribute("data-callsign");
+
+              // Kung naglalaman ng tina-type mo ang pangalan o co-sign, mananatili ito
+              if (nameIndex.includes(query) || callsignIndex.includes(query)) {
+                item.classList.remove("hidden");
+                visibleCount++;
+              } else {
+                item.classList.add("hidden");
+              }
+            });
+
+            // Ipakita ang "No matching members found" kung walang lumitaw
+            const noMatchMsg = document.getElementById("noMatchMessage");
+            if (visibleCount === 0) {
+              noMatchMsg.style.display = "block";
+            } else {
+              noMatchMsg.style.display = "none";
+            }
+          });
+
+        })
+        .catch(error => {
+          console.error("Error loading JSON:", error);
+          loadingDiv.innerHTML = `
+            <i class="fas fa-exclamation-triangle" style="color: var(--primary-red);"></i>
+            <p style="color: #fff;">Failed to fetch database.</p>
+          `;
+        });
+    });
+  </script>
+</body>
+</html>
