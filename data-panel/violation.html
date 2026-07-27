@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>929 Portal of Violation</title>
+    <link rel="icon" type="image/png" href="image/929.png.png">
+    <link rel="apple-touch-icon" href="image/929.png.png">
+    
+    <!-- html2pdf.js & html2canvas CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-red: #c0392b;
+            --primary-red-hover: #a93226;
+            --marine-blue: #1b365d;
+            --marine-blue-dark: #0f2341;
+            --white: #ffffff;
+            --light-bg: #f4f6f9;
+            --border-color: #dcdfe6;
+            --text-dark: #2c3e50;
+            --text-muted: #606f7b;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* HEADER NAVBAR */
+        header {
+            background: linear-gradient(135deg, var(--marine-blue-dark), var(--marine-blue));
+            color: var(--white);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            border-bottom: 4px solid var(--primary-red);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-title {
+            font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.2;
+        }
+
+        .logout-btn {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            background: var(--primary-red-hover);
+        }
+
+        /* CONTAINER VIEWS */
+        .page-view {
+            display: none;
+            width: 100%;
+            max-width: 950px;
+            margin: 20px auto;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .active-view {
+            display: block;
+        }
+
+        /* LOGIN PAGE */
+        #login-view {
+            max-width: 440px;
+            margin: auto;
+            padding: 20px 15px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: clamp(20px, 5vw, 35px);
+            box-shadow: var(--shadow-md);
+            border-top: 5px solid var(--marine-blue);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-header h2 {
+            color: var(--marine-blue);
+            font-size: clamp(1.3rem, 4vw, 1.6rem);
+            margin-bottom: 6px;
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--marine-blue);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #fafafa;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--marine-blue);
+            box-shadow: 0 0 0 3px rgba(27, 54, 93, 0.12);
+            background-color: #fff;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--marine-blue);
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            background: var(--marine-blue-dark);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.99);
+        }
+
+        .btn-danger {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-danger:hover {
+            background: var(--primary-red-hover);
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            font-size: 0.88rem;
+            display: none;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
+
+        /* WELCOME PORTAL PAGE */
+        .welcome-card {
+            text-align: center;
+            padding: clamp(30px, 8vw, 60px) 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border-top: 6px solid var(--primary-red);
+        }
+
+        .welcome-card h1 {
+            color: var(--marine-blue);
+            margin-bottom: 12px;
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+        }
+
+        .welcome-card h3 {
+            color: var(--primary-red);
+            margin-bottom: 18px;
+            font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+        }
+
+        .welcome-card p {
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.6;
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-proceed {
+            background: var(--primary-red);
+            color: white;
+            padding: 14px 32px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(192, 57, 43, 0.3);
+            transition: all 0.2s ease;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .btn-proceed:hover {
+            background: var(--primary-red-hover);
+            transform: translateY(-2px);
+        }
+
+        /* FORM GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* VIOLATION DYNAMIC ROW STYLING */
+        .violation-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .violation-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-add-violation {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-top: 5px;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .btn-add-violation:hover {
+            background: #219150;
+        }
+
+        .btn-remove-violation {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            float: right;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* LOADING OVERLAY */
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 35, 65, 0.92);
+            z-index: 3000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .circular-progress {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-red) 0deg, #ffffff 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inner-circle {
+            width: 76px;
+            height: 76px;
+            background-color: var(--marine-blue-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* PREVIEW CONTAINER & A4 WRAPPER */
+        .preview-container {
+            background: #484c4f;
+            padding: 20px 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* RESPONSIVE SCALER WRAPPER FOR PREVIEW ONLY */
+        .pdf-scaler-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        /* EXACT FIXED A4 SIZE FOR HTML2PDF CAPTURE - DO NOT CHANGE INTERNAL CSS UNITS */
+        .document-paper {
+            background: white;
+            width: 210mm;
+            min-width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+            color: #000;
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.4;
+            font-size: 11pt;
+            position: relative;
+            box-sizing: border-box;
+            transform-origin: top center;
+        }
+
+        .doc-header-img-container {
+            text-align: center;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .doc-header-img {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .doc-title {
+            text-align: center;
+            font-size: 20pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #d63031;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-decoration: underline;
+        }
+
+        .doc-meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+        }
+
+        .doc-meta-table td {
+            padding: 5px 8px;
+            vertical-align: top;
+            font-size: 11pt;
+        }
+
+        .doc-meta-table td.label {
+            font-weight: bold;
+            width: 150px;
+            color: #0056b3;
+        }
+
+        .doc-meta-table td.val-text {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .doc-note-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-red);
+            padding: 8px 12px;
+            font-style: italic;
+            font-size: 9.5pt;
+            margin-bottom: 18px;
+            color: #333;
+        }
+
+        .doc-paragraph {
+            text-align: justify;
+            text-justify: inter-word;
+            margin-bottom: 14px;
+            text-indent: 25px;
+            font-size: 11pt;
+        }
+
+        .doc-footer-signature {
+            margin-top: 35px;
+            float: right;
+            text-align: center;
+            width: 280px;
+        }
+
+        .doc-signature-name {
+            font-size: 12pt;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+            margin-top: 25px;
+        }
+
+        .doc-signature-position {
+            font-size: 10pt;
+            color: #444;
+            margin-top: 2px;
+        }
+
+        .doc-online-notice {
+            margin-top: 40px;
+            font-size: 8pt;
+            color: #d63031;
+            font-weight: normal;
+            font-style: italic;
+            text-align: left;
+        }
+
+        .clear-fix {
+            clear: both;
+        }
+
+        .actions-panel {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* MODAL STYLING */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.65);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: var(--shadow-md);
+            border-top: 5px solid var(--primary-red);
+        }
+
+        .modal-card h3 {
+            color: var(--marine-blue);
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .checkbox-item input {
+            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary-red);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* MEDIA QUERIES FOR MOBILE & TABLET COMPATIBILITY */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .violation-row {
+                grid-template-columns: 1fr;
+            }
+
+            .flex-between {
+                flex-direction: column;
+            }
+
+            .flex-between button {
+                width: 100%;
+            }
+
+            .actions-panel {
+                padding: 15px;
+            }
+
+            .modal-buttons {
+                flex-direction: column-reverse;
+            }
+
+            .modal-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header id="main-header" style="display: none;">
+        <div class="brand-title">
+            <span></span> 929 FIRE AND RESCUE VOLUNTEER GROUP INC.
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <!-- PAGE 1: LOGIN -->
+    <div id="login-view" class="page-view active-view">
+        <div class="card">
+            <div class="login-header">
+                <h2>Portal Login</h2>
+                <p>929 Fire & Rescue Volunteer Violation System</p>
+            </div>
+
+            <div id="login-error" class="alert-error">
+                Invalid Username or Password! Please try again.
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAGE 2: WELCOME PORTAL -->
+    <div id="welcome-view" class="page-view">
+        <div class="welcome-card">
+            <h1>Welcome to Portal of Violation</h1>
+            <h3>929 Violation Administrative Panel</h3>
+            <p>This system allows authorized officers to issue and generate official Notice of Violation documents in compliance with the group's Constitutional Guidelines and SEC regulations.</p>
+            <button class="btn-proceed" onclick="navigateTo('form-view')">PROCEED TO CREATE VIOLATION</button>
+        </div>
+    </div>
+
+    <!-- PAGE 3: CREATE VIOLATION FORM -->
+    <div id="form-view" class="page-view">
+        <div class="card">
+            <h2 style="color: var(--marine-blue); margin-bottom: 20px; border-bottom: 2px solid var(--primary-red); padding-bottom: 8px; font-size: 1.3rem;">
+                Create Violation Document
+            </h2>
+            <form id="violation-form" onsubmit="handleFormSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="issued-day">Day</label>
+                        <input type="number" id="issued-day" min="1" max="31" placeholder="DD" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="issued-month">Month</label>
+                        <select id="issued-month" required>
+                            <option value="">Select Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="issued-year">Year</label>
+                        <input type="number" id="issued-year" value="2026" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-name">Name</label>
+                        <input type="text" id="member-name" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member-callsign">Callsign</label>
+                        <input type="text" id="member-callsign" placeholder="929-00" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-position">Position</label>
+                        <input type="text" id="member-position" placeholder="Member/Officer" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member-address">Address</label>
+                        <input type="text" id="member-address" placeholder="Complete Address" required>
+                    </div>
+
+                    <!-- OFFICIAL RULES AND REGULATIONS SELECTOR (MAX 10) -->
+                    <div class="form-group full-width">
+                        <label>Select Offense / Violation</label>
+                        <div id="violations-container">
+                            <!-- Dynamic Violation Rows Will Be Inserted Here -->
+                        </div>
+                        <button type="button" class="btn-add-violation" onclick="addViolationRow()">Add Another Violation</button>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="offense-count">Count of Offense</label>
+                        <select id="offense-count" required>
+                            <option value="First Offense">First Offense - Verbal or Written Warning (7 days period to respond)</option>
+                            <option value="Second Offense">Second Offense - Formal Investigation (3 days period to respond)</option>
+                            <option value="Third Offense">Third Offense - Final Disciplinary Action (Remove from the group)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ec-signature-name">Issued By (Name)</label>
+                        <input type="text" id="ec-signature-name" placeholder="e.g. TAMAYO ALDRIN B." value="TAMAYO ALDRIN B." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ec-signature-pos">Issued By (Position)</label>
+                        <input type="text" id="ec-signature-pos" placeholder="e.g. Chief Disciplinary Officer" value="OIC -Chief Disciplinary Officer" required>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: right;">
+                    <button type="submit" class="btn-primary" style="padding: 12px 30px; width: auto;">Create Document</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOADING OVERLAY ANIMATION -->
+    <div id="loading-overlay">
+        <div class="spinner-container">
+            <div class="circular-progress" id="progress-bar">
+                <div class="inner-circle" id="progress-text">0%</div>
+            </div>
+        </div>
+        <p id="loading-message" style="font-size: 1.1rem; font-weight: 500;">Generating Violation Document...</p>
+    </div>
+
+    <!-- PAGE 4: DOCUMENT PREVIEW & ACTIONS -->
+    <div id="preview-view" class="page-view">
+        <div class="preview-container">
+            <div class="pdf-scaler-wrapper" id="scaler-wrapper">
+                <div class="document-paper" id="document-to-pdf">
+                    <div class="doc-header-img-container">
+                        <img src="header.png" alt="929 Fire & Rescue Header Logo" class="doc-header-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/750x120/1b365d/ffffff?text=929+FIRE+AND+RESCUE+VOLUNTEER+ORGANIZATION+HEADER';">
+                    </div>
+
+                    <div class="doc-title">Notice of Violation</div>
+
+                    <table class="doc-meta-table">
+                        <tr>
+                            <td class="label">Issued Date:</td>
+                            <td class="val-text"><span id="doc-date">-</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Name:</td>
+                            <td class="val-text"><span id="doc-name">-</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Callsign:</td>
+                            <td class="val-text"><span id="doc-callsign">-</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Position:</td>
+                            <td class="val-text"><span id="doc-position">-</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Address:</td>
+                            <td class="val-text"><span id="doc-address">-</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Violation:</td>
+                            <td class="val-text"><span id="doc-violation">-</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Count of Offense:</td>
+                            <td class="val-text"><span id="doc-offense" style="color:#c0392b; font-weight:bold;">-</span></td>
+                        </tr>
+                    </table>
+
+                    <div class="doc-note-box">
+                        <b>Note:</b> This violation is based on the official Rules and Regulations outlined in the Group's Constitutional Guidelines.
+                    </div>
+
+                    <div class="doc-paragraph">
+                        The 929 Fire and Rescue Volunteer and Radio Communication Group Incorporated, an organization registered with the Securities and Exchange Commission (SEC) of the Philippines, requires all members to comply with the organization's Constitution, By-Laws, Rules, and Regulations, and to follow the proper procedures established by the group.
+                    </div>
+
+                    <div class="doc-paragraph">
+                        This Notice of Violation is being served to you either personally at your address or electronically through online platforms, including social media. The notice specifies the alleged violation and the corresponding response period, which is determined by the nature and number of offenses. The response period begins on the date this notice is officially issued and served.
+                    </div>
+
+                    <div class="doc-paragraph">
+                        The evidence supporting the alleged violation is based on the provisions of the organization's Rules and Regulations. You may review the applicable Articles, Sections, Paragraphs, and corresponding offenses on our official website at <a href="https://929fire.org/rules-regulation" style="color:#000; text-decoration:underline;">https://929fire.org/rules-regulation</a>. You are requested to submit your response within the prescribed period. A response may be made verbally to the authorized officers of the organization when personally served, or in writing by sending your reply through the official Facebook Page of the 929fire.org. Thank you for your attention, cooperation, and understanding.
+                    </div>
+
+                    <div class="doc-footer-signature">
+                        <p style="font-size: 10pt; color: #555;">Issued By:</p>
+                        <div class="doc-signature-name" id="doc-signature-name">JUAN DELA CRUZ</div>
+                        <div class="doc-signature-position" id="doc-signature-pos">Chief Disciplinary Officer</div>
+                    </div>
+
+                    <div class="clear-fix"></div>
+
+                    <div class="doc-online-notice">
+                        This document is generated online. Signature is not required.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions-panel">
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="pdf-filename">Document File Name:</label>
+                <input type="text" id="pdf-filename" value="929_Notice_of_Violation">
+            </div>
+            
+            <div class="flex-between">
+                <button class="btn-danger" onclick="openPolicyModal()">Download Original File</button>
+                <button class="btn-secondary" onclick="navigateTo('welcome-view')">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AGREEMENT -->
+    <div id="policy-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3>Terms and Policy Agreement</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 15px;">
+                Please review and accept the regulatory terms before downloading:
+            </p>
+
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox" id="chk-policy-1" onchange="validatePolicies()">
+                    <span>I agree to comply with the <b>Data Privacy Act of 2012</b> and handle all personal information contained in this document confidentially.</span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="chk-policy-2" onchange="validatePolicies()">
+                    <span>I acknowledge that generating this Notice of Violation is <b>automatically recorded</b> in our official system database.</span>
+                </label>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closePolicyModal()">Cancel</button>
+                <button id="btn-continue-download" class="btn-danger" style="opacity: 0.5; cursor: not-allowed;" disabled onclick="startPDFDownloadWithProgress()">Continue & Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Official Rules and Regulations Data Structure
+        const rulesDatabase = {
+            "Article I": {
+                name: "Article I - Participation",
+                sections: [
+                    { val: "Article I - Section 1", label: "Section 1 (Late / Late Arrival for Meetings & Deployments)" },
+                    { val: "Article I - Section 2", label: "Section 2 (Failure to Inform Officers of Absence/Tardiness)" },
+                    { val: "Article I - Section 3", label: "Section 3 (Lack of Active Participation in Training/Activities)" }
+                ]
+            },
+            "Article II": {
+                name: "Article II - Dress Code, Proper Gear and Equipments",
+                sections: [
+                    { val: "Article II - Section 1", label: "Section 1 (Improper Uniform / Failure to wear proper attire)" },
+                    { val: "Article II - Section 2", label: "Section 2 (No Valid Official Uniform within 1 Year)" },
+                    { val: "Article II - Section 3", label: "Section 3 (No Valid Official ID within 5 Months)" },
+                    { val: "Article II - Section 4", label: "Section 4 (Misuse of Uniform in Outings/Drinking/Casual events)" },
+                    { val: "Article II - Section 5", label: "Section 5 (Unauthorized Borrowing or Wearing of Others' PPE)" },
+                    { val: "Article II - Section 6", label: "Section 6 (Careless Use / Damage of Group Equipment)" },
+                    { val: "Article II - Section 7", label: "Section 7 (Failure to Immediately Return Borrowed Items)" },
+                    { val: "Article II - Section 8", label: "Section 8 (Unauthorized Use of ID, Uniform, Frequency, or Vehicle)" }
+                ]
+            },
+            "Article III": {
+                name: "Article III - Safety Protocols",
+                sections: [
+                    { val: "Article III - Section 1", label: "Section 1 (Failure to Follow Safety Procedures)" },
+                    { val: "Article III - Section 2", label: "Section 2 (Performing Tasks without Instruction/Supervisor)" },
+                    { val: "Article III - Section 3", label: "Section 3 (Failure to Report Hazard or Safety Concern)" },
+                    { val: "Article III - Section 4", label: "Section 4 (Entering Hazardous Area without PPE / Unpermitted Touch)" }
+                ]
+            },
+            "Article IV": {
+                name: "Article IV - Communication",
+                sections: [
+                    { val: "Article IV - Section 1", label: "Section 1 (Misuse of Official GC for Unofficial Purpose)" },
+                    { val: "Article IV - Section 2", label: "Section 2 (Sending Unrelated Chats, Spam, or Unnecessary Messages)" },
+                    { val: "Article IV - Section 3", label: "Section 3 (Unresponsive to Official Roll Calls or Updates)" },
+                    { val: "Article IV - Section 4", label: "Section 4 (Leaving Official GC Without Permission)" }
+                ]
+            },
+            "Article V": {
+                name: "Article V - Professionalism, Confidentiality and Discipline",
+                sections: [
+                    { val: "Article V - Section 1", label: "Section 1 (Unauthorized Sharing of Information/Photos/Reports)" },
+                    { val: "Article V - Section 2", label: "Section 2 (Breach of Personal Data Confidentiality of Incident/Member)" },
+                    { val: "Article V - Section 3", label: "Section 3 (General Non-compliance with Group Directives)" },
+                    { val: "Article V - Section 4", label: "Section 4 (Disrespectful Behavior Online or On-Ground)" },
+                    { val: "Article V - Section 5", label: "Section 5 (Sending Offensive or Rude Messages)" },
+                    { val: "Article V - Section 6", label: "Section 6 (Violation of Chain of Command / Officer Instructions)" }
+                ]
+            }
+        };
+
+        let violationCounter = 0;
+
+        // Dynamic Violation Row Addition (Up to 10)
+        function addViolationRow() {
+            const container = document.getElementById('violations-container');
+            if (container.children.length >= 10) {
+                alert("Maximum limit of 10 violations reached.");
+                return;
+            }
+
+            violationCounter++;
+            const rowId = `violation-row-${violationCounter}`;
+
+            const box = document.createElement('div');
+            box.className = 'violation-box';
+            box.id = rowId;
+
+            let articleOptions = `<option value="">-- Select Article --</option>`;
+            for (let artKey in rulesDatabase) {
+                articleOptions += `<option value="${artKey}">${rulesDatabase[artKey].name}</option>`;
+            }
+
+            box.innerHTML = `
+                ${container.children.length > 0 ? `<button type="button" class="btn-remove-violation" onclick="removeViolationRow('${rowId}')">Remove</button>` : ''}
+                <div class="violation-row">
+                    <div>
+                        <select onchange="updateSectionDropdown(this, '${rowId}')" class="art-select" required>
+                            ${articleOptions}
+                        </select>
+                    </div>
+                    <div>
+                        <select class="sec-select" required>
+                            <option value="">-- Select Section / Paragraph --</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(box);
+        }
+
+        function removeViolationRow(rowId) {
+            const row = document.getElementById(rowId);
+            if (row) row.remove();
+        }
+
+        function updateSectionDropdown(artSelect, rowId) {
+            const row = document.getElementById(rowId);
+            const secSelect = row.querySelector('.sec-select');
+            const selectedArt = artSelect.value;
+
+            secSelect.innerHTML = '<option value="">-- Select Section / Paragraph --</option>';
+
+            if (selectedArt && rulesDatabase[selectedArt]) {
+                rulesDatabase[selectedArt].sections.forEach(sec => {
+                    const opt = document.createElement('option');
+                    opt.value = sec.val;
+                    opt.textContent = sec.label;
+                    secSelect.appendChild(opt);
+                });
+            }
+        }
+
+        const validUsers = {
+            "admin": "admin929",
+            "admins": "rescue929",
+            "adminss": "dispatch2026",
+            "adminsss": "cmd929fire",
+            "adminn": "inspect929"
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const today = new Date();
+            document.getElementById('issued-day').value = today.getDate();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('issued-month').value = monthNames[today.getMonth()];
+            document.getElementById('issued-year').value = today.getFullYear();
+            
+            // Add first violation row on load
+            addViolationRow();
+
+            // Auto adapt preview paper scale on screen resize
+            window.addEventListener('resize', adaptPreviewScale);
+        });
+
+        function adaptPreviewScale() {
+            const paper = document.getElementById('document-to-pdf');
+            const wrapper = document.getElementById('scaler-wrapper');
+            if (!paper || !wrapper) return;
+
+            const containerWidth = wrapper.parentElement.clientWidth - 20; // accounting for padding
+            const paperWidth = paper.offsetWidth; // 210mm in px (~793px)
+
+            if (containerWidth < paperWidth) {
+                const scale = containerWidth / paperWidth;
+                paper.style.transform = `scale(${scale})`;
+                paper.style.marginBottom = `-${(paper.offsetHeight * (1 - scale))}px`;
+            } else {
+                paper.style.transform = 'scale(1)';
+                paper.style.marginBottom = '0px';
+            }
+        }
+
+        function navigateTo(pageId) {
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(page => page.classList.remove('active-view'));
+            
+            document.getElementById(pageId).classList.add('active-view');
+
+            const header = document.getElementById('main-header');
+            if (pageId === 'login-view') {
+                header.style.display = 'none';
+            } else {
+                header.style.display = 'flex';
+            }
+
+            if (pageId === 'preview-view') {
+                setTimeout(adaptPreviewScale, 50);
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const errorAlert = document.getElementById('login-error');
+
+            if (validUsers[user] && validUsers[user] === pass) {
+                errorAlert.style.display = 'none';
+                navigateTo('welcome-view');
+            } else {
+                errorAlert.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            document.getElementById('login-form').reset();
+            navigateTo('login-view');
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const day = document.getElementById('issued-day').value;
+            const month = document.getElementById('issued-month').value;
+            const year = document.getElementById('issued-year').value;
+            
+            document.getElementById('doc-date').innerText = `${day} ${month} ${year}`;
+            document.getElementById('doc-name').innerText = document.getElementById('member-name').value;
+            document.getElementById('doc-callsign').innerText = document.getElementById('member-callsign').value;
+            document.getElementById('doc-position').innerText = document.getElementById('member-position').value;
+            document.getElementById('doc-address').innerText = document.getElementById('member-address').value;
+
+            // Collect all selected violation sections (Separated by comma)
+            const secSelects = document.querySelectorAll('.sec-select');
+            const selectedViolations = [];
+            secSelects.forEach(select => {
+                if (select.value) {
+                    selectedViolations.push(select.value);
+                }
+            });
+
+            document.getElementById('doc-violation').innerText = selectedViolations.join(', ');
+
+            const selectedOffense = document.getElementById('offense-count').value;
+            const offenseOptions = {
+                "First Offense": "First Offense - Verbal or Written Warning (7 days period to respond)",
+                "Second Offense": "Second Offense - Formal Investigation (3 days period to respond)",
+                "Third Offense": "Third Offense - Final Disciplinary Action (Remove from the group)"
+            };
+            document.getElementById('doc-offense').innerText = offenseOptions[selectedOffense] || selectedOffense;
+
+            document.getElementById('doc-signature-name').innerText = document.getElementById('ec-signature-name').value;
+            document.getElementById('doc-signature-pos').innerText = document.getElementById('ec-signature-pos').value;
+
+            const cleanName = document.getElementById('member-name').value.replace(/[^a-zA-Z0-9]/g, "_");
+            document.getElementById('pdf-filename').value = `929_Notice_of_Violation_${cleanName}`;
+
+            triggerLoadingAnimation("Generating Violation Document...", () => {
+                navigateTo('preview-view');
+            });
+        }
+
+        function triggerLoadingAnimation(message, callback) {
+            const overlay = document.getElementById('loading-overlay');
+            const progressCircle = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const messageEl = document.getElementById('loading-message');
+            
+            messageEl.innerText = message;
+            overlay.style.display = 'flex';
+            let current = 0;
+
+            const interval = setInterval(() => {
+                current += 2;
+                if (current > 100) current = 100;
+                
+                progressText.innerText = `${current}%`;
+                const deg = (current / 100) * 360;
+                progressCircle.style.background = `conic-gradient(var(--primary-red) ${deg}deg, #ffffff 0deg)`;
+
+                if (current >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        if (callback) callback();
+                    }, 300);
+                }
+            }, 20);
+        }
+
+        function openPolicyModal() {
+            document.getElementById('chk-policy-1').checked = false;
+            document.getElementById('chk-policy-2').checked = false;
+            validatePolicies();
+            document.getElementById('policy-modal').style.display = 'flex';
+        }
+
+        function closePolicyModal() {
+            document.getElementById('policy-modal').style.display = 'none';
+        }
+
+        function validatePolicies() {
+            const chk1 = document.getElementById('chk-policy-1').checked;
+            const chk2 = document.getElementById('chk-policy-2').checked;
+            const btn = document.getElementById('btn-continue-download');
+
+            if (chk1 && chk2) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+            }
+        }
+
+        function startPDFDownloadWithProgress() {
+            closePolicyModal();
+            triggerLoadingAnimation("Rendering & Downloading High Quality PDF...", () => {
+                executePDFDownload();
+            });
+        }
+
+        function executePDFDownload() {
+            const element = document.getElementById('document-to-pdf');
+            
+            // Temporarily reset CSS Transform for clean PDF Rendering
+            const currentTransform = element.style.transform;
+            const currentMarginBottom = element.style.marginBottom;
+            element.style.transform = 'none';
+            element.style.marginBottom = '0px';
+
+            let filename = document.getElementById('pdf-filename').value.trim();
+            if (!filename.toLowerCase().endsWith('.pdf')) {
+                filename += '.pdf';
+            }
+
+            const opt = {
+                margin:       0,
+                filename:     filename,
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true,
+                    logging: false,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: 1024 // Standard baseline rendering width
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restore scale after rendering
+                element.style.transform = currentTransform;
+                element.style.marginBottom = currentMarginBottom;
+            });
+        }
+    </script>
+</body>
+</html>
