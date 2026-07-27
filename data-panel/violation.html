@@ -18,11 +18,24 @@
             --marine-blue-dark: #0f2341;
             --white: #ffffff;
             --light-bg: #f4f6f9;
+            --card-bg: #ffffff;
             --border-color: #dcdfe6;
             --text-dark: #2c3e50;
             --text-muted: #606f7b;
+            --input-bg: #fafafa;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
             --shadow-md: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --light-bg: #121824;
+            --card-bg: #1a2234;
+            --border-color: #2e3a52;
+            --text-dark: #e2e8f0;
+            --text-muted: #94a3b8;
+            --input-bg: #0f172a;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+            --shadow-md: 0 8px 25px rgba(0,0,0,0.5);
         }
 
         * {
@@ -40,12 +53,13 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* HEADER NAVBAR */
         header {
             background: linear-gradient(135deg, var(--marine-blue-dark), var(--marine-blue));
-            color: var(--white);
+            color: #ffffff;
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
@@ -58,13 +72,39 @@
         }
 
         .brand-title {
-            font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+            font-size: clamp(0.8rem, 2.5vw, 1.05rem);
             font-weight: 700;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             gap: 10px;
             line-height: 1.2;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .logout-btn {
@@ -106,11 +146,12 @@
         }
 
         .card {
-            background: var(--white);
+            background: var(--card-bg);
             border-radius: 12px;
             padding: clamp(20px, 5vw, 35px);
             box-shadow: var(--shadow-md);
             border-top: 5px solid var(--marine-blue);
+            transition: background-color 0.3s ease;
         }
 
         .login-header {
@@ -122,6 +163,10 @@
             color: var(--marine-blue);
             font-size: clamp(1.3rem, 4vw, 1.6rem);
             margin-bottom: 6px;
+        }
+
+        [data-theme="dark"] .login-header h2 {
+            color: #60a5fa;
         }
 
         .login-header p {
@@ -138,7 +183,7 @@
             margin-bottom: 6px;
             font-weight: 600;
             font-size: 0.88rem;
-            color: var(--marine-blue);
+            color: var(--text-dark);
         }
 
         .form-group input, .form-group select, .form-group textarea {
@@ -149,19 +194,19 @@
             font-size: 0.95rem;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
-            background-color: #fafafa;
+            background-color: var(--input-bg);
+            color: var(--text-dark);
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: var(--marine-blue);
-            box-shadow: 0 0 0 3px rgba(27, 54, 93, 0.12);
-            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(27, 54, 93, 0.2);
         }
 
         .btn-primary {
             width: 100%;
             background: var(--marine-blue);
-            color: var(--white);
+            color: #ffffff;
             border: none;
             padding: 14px;
             border-radius: 8px;
@@ -211,7 +256,7 @@
         .welcome-card {
             text-align: center;
             padding: clamp(30px, 8vw, 60px) 20px;
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
             box-shadow: var(--shadow-md);
             border-top: 6px solid var(--primary-red);
@@ -221,6 +266,10 @@
             color: var(--marine-blue);
             margin-bottom: 12px;
             font-size: clamp(1.5rem, 5vw, 2.2rem);
+        }
+
+        [data-theme="dark"] .welcome-card h1 {
+            color: #60a5fa;
         }
 
         .welcome-card h3 {
@@ -272,8 +321,8 @@
 
         /* VIOLATION DYNAMIC ROW STYLING */
         .violation-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
             padding: 14px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -321,7 +370,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 35, 65, 0.92);
+            background: rgba(15, 35, 65, 0.94);
             z-index: 3000;
             flex-direction: column;
             justify-content: center;
@@ -360,9 +409,9 @@
             font-weight: bold;
         }
 
-        /* PREVIEW CONTAINER & A4 WRAPPER */
+        /* PREVIEW CONTAINER & PDF LAYOUT FIX */
         .preview-container {
-            background: #484c4f;
+            background: #33373a;
             padding: 20px 10px;
             border-radius: 8px;
             display: flex;
@@ -372,29 +421,21 @@
             box-sizing: border-box;
         }
 
-        /* RESPONSIVE SCALER WRAPPER FOR PREVIEW ONLY */
-        .pdf-scaler-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        /* EXACT FIXED A4 SIZE FOR HTML2PDF CAPTURE - DO NOT CHANGE INTERNAL CSS UNITS */
+        /* FIXED PDF PAPER - REMAINS CONSTANT FOR PREVENTING PDF GRAPHIC GLITCHES */
         .document-paper {
-            background: white;
+            background: #ffffff !important;
+            color: #000000 !important;
             width: 210mm;
             min-width: 210mm;
             min-height: 297mm;
             padding: 15mm 20mm;
-            box-shadow: 0 0 20px rgba(0,0,0,0.4);
-            color: #000;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
             font-family: 'Times New Roman', Times, serif;
             line-height: 1.4;
             font-size: 11pt;
             position: relative;
             box-sizing: border-box;
-            transform-origin: top center;
+            margin: 0 auto;
         }
 
         .doc-header-img-container {
@@ -409,6 +450,7 @@
             max-height: 120px;
             object-fit: contain;
             display: block;
+            margin: 0 auto;
         }
 
         .doc-title {
@@ -416,7 +458,7 @@
             font-size: 20pt;
             font-weight: bold;
             text-transform: uppercase;
-            color: #d63031;
+            color: #d63031 !important;
             margin-top: 10px;
             margin-bottom: 20px;
             letter-spacing: 1px;
@@ -430,30 +472,31 @@
         }
 
         .doc-meta-table td {
-            padding: 5px 8px;
+            padding: 6px 8px;
             vertical-align: top;
             font-size: 11pt;
+            color: #000000 !important;
         }
 
         .doc-meta-table td.label {
             font-weight: bold;
             width: 150px;
-            color: #0056b3;
+            color: #0056b3 !important;
         }
 
         .doc-meta-table td.val-text {
-            color: #2c3e50;
+            color: #2c3e50 !important;
             font-weight: 600;
         }
 
         .doc-note-box {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--primary-red);
+            background-color: #f8f9fa !important;
+            border-left: 4px solid #c0392b !important;
             padding: 8px 12px;
             font-style: italic;
             font-size: 9.5pt;
             margin-bottom: 18px;
-            color: #333;
+            color: #333333 !important;
         }
 
         .doc-paragraph {
@@ -462,6 +505,7 @@
             margin-bottom: 14px;
             text-indent: 25px;
             font-size: 11pt;
+            color: #000000 !important;
         }
 
         .doc-footer-signature {
@@ -474,21 +518,21 @@
         .doc-signature-name {
             font-size: 12pt;
             font-weight: bold;
-            color: #000;
+            color: #000000 !important;
             text-transform: uppercase;
             margin-top: 25px;
         }
 
         .doc-signature-position {
             font-size: 10pt;
-            color: #444;
+            color: #444444 !important;
             margin-top: 2px;
         }
 
         .doc-online-notice {
             margin-top: 40px;
             font-size: 8pt;
-            color: #d63031;
+            color: #d63031 !important;
             font-weight: normal;
             font-style: italic;
             text-align: left;
@@ -499,7 +543,7 @@
         }
 
         .actions-panel {
-            background: white;
+            background: var(--card-bg);
             padding: 20px;
             margin-top: 20px;
             border-radius: 8px;
@@ -519,7 +563,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.65);
+            background: rgba(0,0,0,0.7);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -527,7 +571,7 @@
         }
 
         .modal-card {
-            background: white;
+            background: var(--card-bg);
             padding: 25px;
             border-radius: 10px;
             width: 100%;
@@ -539,6 +583,10 @@
         .modal-card h3 {
             color: var(--marine-blue);
             margin-bottom: 12px;
+        }
+
+        [data-theme="dark"] .modal-card h3 {
+            color: #60a5fa;
         }
 
         .checkbox-group {
@@ -553,7 +601,7 @@
             align-items: flex-start;
             gap: 10px;
             font-size: 0.88rem;
-            color: #333;
+            color: var(--text-dark);
             line-height: 1.4;
         }
 
@@ -590,7 +638,7 @@
         /* MEDIA QUERIES FOR MOBILE & TABLET COMPATIBILITY */
         @media (max-width: 768px) {
             header {
-                padding: 10px 15px;
+                padding: 10px 12px;
             }
 
             .form-grid {
@@ -629,12 +677,17 @@
 </head>
 <body>
 
-    <!-- NAVBAR HEADER -->
+    <!-- NAVBAR HEADER WITH DARK MODE TOGGLE -->
     <header id="main-header" style="display: none;">
         <div class="brand-title">
             <span></span> 929 FIRE AND RESCUE VOLUNTEER GROUP INC.
         </div>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="header-actions">
+            <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="theme-btn">
+                <span id="theme-icon"></span> <span id="theme-text">Dark</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
     </header>
 
     <!-- PAGE 1: LOGIN -->
@@ -774,72 +827,70 @@
     <!-- PAGE 4: DOCUMENT PREVIEW & ACTIONS -->
     <div id="preview-view" class="page-view">
         <div class="preview-container">
-            <div class="pdf-scaler-wrapper" id="scaler-wrapper">
-                <div class="document-paper" id="document-to-pdf">
-                    <div class="doc-header-img-container">
-                        <img src="data-panel/header.png" alt="929 Fire & Rescue Header Logo" class="doc-header-img" onerror="this.onerror=null; this.src='https://929fire.org/data-panel/header.png';">
-                    </div>
+            <div class="document-paper" id="document-to-pdf">
+                <div class="doc-header-img-container">
+                    <img src="data-panel/header.png" alt="929 Fire & Rescue Header Logo" class="doc-header-img" onerror="this.onerror=null; this.src='https://929fire.org/data-panel/header.png';">
+                </div>
 
-                    <div class="doc-title">Notice of Violation</div>
+                <div class="doc-title">Notice of Violation</div>
 
-                    <table class="doc-meta-table">
-                        <tr>
-                            <td class="label">Issued Date:</td>
-                            <td class="val-text"><span id="doc-date">-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Name:</td>
-                            <td class="val-text"><span id="doc-name">-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Callsign:</td>
-                            <td class="val-text"><span id="doc-callsign">-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Position:</td>
-                            <td class="val-text"><span id="doc-position">-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Address:</td>
-                            <td class="val-text"><span id="doc-address">-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Violation:</td>
-                            <td class="val-text"><span id="doc-violation">-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Count of Offense:</td>
-                            <td class="val-text"><span id="doc-offense" style="color:#c0392b; font-weight:bold;">-</span></td>
-                        </tr>
-                    </table>
+                <table class="doc-meta-table">
+                    <tr>
+                        <td class="label">Issued Date:</td>
+                        <td class="val-text"><span id="doc-date">-</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Name:</td>
+                        <td class="val-text"><span id="doc-name">-</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Callsign:</td>
+                        <td class="val-text"><span id="doc-callsign">-</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Position:</td>
+                        <td class="val-text"><span id="doc-position">-</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Address:</td>
+                        <td class="val-text"><span id="doc-address">-</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Violation:</td>
+                        <td class="val-text"><span id="doc-violation">-</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Count of Offense:</td>
+                        <td class="val-text"><span id="doc-offense" style="color:#c0392b; font-weight:bold;">-</span></td>
+                    </tr>
+                </table>
 
-                    <div class="doc-note-box">
-                        <b>Note:</b> This violation is based on the official Rules and Regulations outlined in the Group's Constitutional Guidelines.
-                    </div>
+                <div class="doc-note-box">
+                    <b>Note:</b> This violation is based on the official Rules and Regulations outlined in the Group's Constitutional Guidelines.
+                </div>
 
-                    <div class="doc-paragraph">
-                        The 929 Fire and Rescue Volunteer and Radio Communication Group Incorporated, an organization registered with the Securities and Exchange Commission (SEC) of the Philippines, requires all members to comply with the organization's Constitution, By-Laws, Rules, and Regulations, and to follow the proper procedures established by the group.
-                    </div>
+                <div class="doc-paragraph">
+                    The 929 Fire and Rescue Volunteer and Radio Communication Group Incorporated, an organization registered with the Securities and Exchange Commission (SEC) of the Philippines, requires all members to comply with the organization's Constitution, By-Laws, Rules, and Regulations, and to follow the proper procedures established by the group.
+                </div>
 
-                    <div class="doc-paragraph">
-                        This Notice of Violation is being served to you either personally at your address or electronically through online platforms, including social media. The notice specifies the alleged violation and the corresponding response period, which is determined by the nature and number of offenses. The response period begins on the date this notice is officially issued and served.
-                    </div>
+                <div class="doc-paragraph">
+                    This Notice of Violation is being served to you either personally at your address or electronically through online platforms, including social media. The notice specifies the alleged violation and the corresponding response period, which is determined by the nature and number of offenses. The response period begins on the date this notice is officially issued and served.
+                </div>
 
-                    <div class="doc-paragraph">
-                        The evidence supporting the alleged violation is based on the provisions of the organization's Rules and Regulations. You may review the applicable Articles, Sections, Paragraphs, and corresponding offenses on our official website at <a href="https://929fire.org/rules-regulation" style="color:#000; text-decoration:underline;">https://929fire.org/rules-regulation</a>. You are requested to submit your response within the prescribed period. A response may be made verbally to the authorized officers of the organization when personally served, or in writing by sending your reply through the official Facebook Page of the 929fire.org. Thank you for your attention, cooperation, and understanding.
-                    </div>
+                <div class="doc-paragraph">
+                    The evidence supporting the alleged violation is based on the provisions of the organization's Rules and Regulations. You may review the applicable Articles, Sections, Paragraphs, and corresponding offenses on our official website at <a href="https://929fire.org/rules-regulation" style="color:#000; text-decoration:underline;">https://929fire.org/rules-regulation</a>. You are requested to submit your response within the prescribed period. A response may be made verbally to the authorized officers of the organization when personally served, or in writing by sending your reply through the official Facebook Page of the 929fire.org. Thank you for your attention, cooperation, and understanding.
+                </div>
 
-                    <div class="doc-footer-signature">
-                        <p style="font-size: 10pt; color: #555;">Issued By:</p>
-                        <div class="doc-signature-name" id="doc-signature-name">JUAN DELA CRUZ</div>
-                        <div class="doc-signature-position" id="doc-signature-pos">Chief Disciplinary Officer</div>
-                    </div>
+                <div class="doc-footer-signature">
+                    <p style="font-size: 10pt; color: #555;">Issued By:</p>
+                    <div class="doc-signature-name" id="doc-signature-name">JUAN DELA CRUZ</div>
+                    <div class="doc-signature-position" id="doc-signature-pos">Chief Disciplinary Officer</div>
+                </div>
 
-                    <div class="clear-fix"></div>
+                <div class="clear-fix"></div>
 
-                    <div class="doc-online-notice">
-                        This document is generated online. Signature is not required.
-                    </div>
+                <div class="doc-online-notice">
+                    This document is generated online. Signature is not required.
                 </div>
             </div>
         </div>
@@ -1018,26 +1069,22 @@
             
             // Add first violation row on load
             addViolationRow();
-
-            // Auto adapt preview paper scale on screen resize
-            window.addEventListener('resize', adaptPreviewScale);
         });
 
-        function adaptPreviewScale() {
-            const paper = document.getElementById('document-to-pdf');
-            const wrapper = document.getElementById('scaler-wrapper');
-            if (!paper || !wrapper) return;
+        // Dark Mode Toggle Logic
+        function toggleDarkMode() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
 
-            const containerWidth = wrapper.parentElement.clientWidth - 20; // accounting for padding
-            const paperWidth = paper.offsetWidth; // 210mm in px (~793px)
-
-            if (containerWidth < paperWidth) {
-                const scale = containerWidth / paperWidth;
-                paper.style.transform = `scale(${scale})`;
-                paper.style.marginBottom = `-${(paper.offsetHeight * (1 - scale))}px`;
+            if (currentTheme === 'dark') {
+                document.body.removeAttribute('data-theme');
+                icon.innerText = '';
+                text.innerText = 'Dark';
             } else {
-                paper.style.transform = 'scale(1)';
-                paper.style.marginBottom = '0px';
+                document.body.setAttribute('data-theme', 'dark');
+                icon.innerText = '';
+                text.innerText = 'Light';
             }
         }
 
@@ -1052,10 +1099,6 @@
                 header.style.display = 'none';
             } else {
                 header.style.display = 'flex';
-            }
-
-            if (pageId === 'preview-view') {
-                setTimeout(adaptPreviewScale, 50);
             }
 
             window.scrollTo(0, 0);
@@ -1093,7 +1136,7 @@
             document.getElementById('doc-position').innerText = document.getElementById('member-position').value;
             document.getElementById('doc-address').innerText = document.getElementById('member-address').value;
 
-            // Collect all selected violation sections (Separated by comma)
+            // Collect all selected violation sections
             const secSelects = document.querySelectorAll('.sec-select');
             const selectedViolations = [];
             secSelects.forEach(select => {
@@ -1180,19 +1223,13 @@
 
         function startPDFDownloadWithProgress() {
             closePolicyModal();
-            triggerLoadingAnimation("Rendering & Downloading High Quality PDF...", () => {
+            triggerLoadingAnimation("Rendering & Downloading High Quality...", () => {
                 executePDFDownload();
             });
         }
 
         function executePDFDownload() {
             const element = document.getElementById('document-to-pdf');
-            
-            // Temporarily reset CSS Transform for clean PDF Rendering
-            const currentTransform = element.style.transform;
-            const currentMarginBottom = element.style.marginBottom;
-            element.style.transform = 'none';
-            element.style.marginBottom = '0px';
 
             let filename = document.getElementById('pdf-filename').value.trim();
             if (!filename.toLowerCase().endsWith('.pdf')) {
@@ -1209,16 +1246,12 @@
                     logging: false,
                     scrollX: 0,
                     scrollY: 0,
-                    windowWidth: 1024 // Standard baseline rendering width
+                    windowWidth: 1024
                 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                // Restore scale after rendering
-                element.style.transform = currentTransform;
-                element.style.marginBottom = currentMarginBottom;
-            });
+            html2pdf().set(opt).from(element).save();
         }
     </script>
 </body>
