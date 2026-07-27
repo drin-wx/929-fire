@@ -9,6 +9,7 @@
     
     <!-- html2pdf.js & html2canvas CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root {
@@ -31,8 +32,8 @@
             --light-bg: #121824;
             --card-bg: #1a2234;
             --border-color: #2e3a52;
-            --text-dark: #e2e8f0;
-            --text-muted: #94a3b8;
+            --text-dark: #ffffff;
+            --text-muted: #cbd5e1;
             --input-bg: #0f172a;
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
             --shadow-md: 0 8px 25px rgba(0,0,0,0.5);
@@ -79,6 +80,7 @@
             align-items: center;
             gap: 10px;
             line-height: 1.2;
+            color: #ffffff;
         }
 
         .header-actions {
@@ -143,6 +145,24 @@
             max-width: 440px;
             margin: auto;
             padding: 20px 15px;
+        }
+
+        .login-top-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .login-toggle-btn {
+            background: var(--card-bg);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
         }
 
         .card {
@@ -238,6 +258,22 @@
 
         .btn-danger:hover {
             background: var(--primary-red-hover);
+        }
+
+        .btn-image {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-image:hover {
+            background: #219150;
         }
 
         .alert-error {
@@ -407,6 +443,7 @@
             justify-content: center;
             font-size: 1.2rem;
             font-weight: bold;
+            color: #ffffff;
         }
 
         /* PREVIEW CONTAINER & PDF LAYOUT FIX */
@@ -421,7 +458,7 @@
             box-sizing: border-box;
         }
 
-        /* FIXED PDF PAPER - REMAINS CONSTANT FOR PREVENTING PDF GRAPHIC GLITCHES */
+        /* FIXED PDF/DOCUMENT PAPER (A4 SIZE DESIGN) */
         .document-paper {
             background: #ffffff !important;
             color: #000000 !important;
@@ -558,6 +595,12 @@
             flex-wrap: wrap;
         }
 
+        .button-group-downloads {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         /* MODAL STYLING */
         .modal-overlay {
             display: none;
@@ -657,7 +700,12 @@
                 flex-direction: column;
             }
 
-            .flex-between button {
+            .button-group-downloads {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .flex-between button, .button-group-downloads button {
                 width: 100%;
             }
 
@@ -680,11 +728,11 @@
     <!-- NAVBAR HEADER WITH DARK MODE TOGGLE -->
     <header id="main-header" style="display: none;">
         <div class="brand-title">
-            <span></span> 929 FIRE AND RESCUE VOLUNTEER GROUP INC.
+            929 FIRE AND RESCUE VOLUNTEER GROUP INC.
         </div>
         <div class="header-actions">
-            <button class="theme-toggle-btn" onclick="toggleDarkMode()" id="theme-btn">
-                <span id="theme-icon"></span> <span id="theme-text">Dark</span>
+            <button class="theme-toggle-btn" onclick="toggleDarkMode()">
+                <span class="theme-text">Dark Mode</span>
             </button>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
@@ -692,6 +740,9 @@
 
     <!-- PAGE 1: LOGIN -->
     <div id="login-view" class="page-view active-view">
+        <div class="login-top-bar">
+            <button class="login-toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+        </div>
         <div class="card">
             <div class="login-header">
                 <h2>Portal Login</h2>
@@ -897,12 +948,15 @@
 
         <div class="actions-panel">
             <div class="form-group" style="margin-bottom: 15px;">
-                <label for="pdf-filename">Document File Name:</label>
+                <label for="pdf-filename">File Name:</label>
                 <input type="text" id="pdf-filename" value="929_Notice_of_Violation">
             </div>
             
             <div class="flex-between">
-                <button class="btn-danger" onclick="openPolicyModal()">Download Original File</button>
+                <div class="button-group-downloads">
+                    <button class="btn-danger" onclick="openPolicyModal('pdf')">Download PDF File</button>
+                    <button class="btn-image" onclick="openPolicyModal('jpeg')">Download JPEG Image</button>
+                </div>
                 <button class="btn-secondary" onclick="navigateTo('welcome-view')">Back to Home</button>
             </div>
         </div>
@@ -929,13 +983,13 @@
 
             <div class="modal-buttons">
                 <button class="btn-secondary" onclick="closePolicyModal()">Cancel</button>
-                <button id="btn-continue-download" class="btn-danger" style="opacity: 0.5; cursor: not-allowed;" disabled onclick="startPDFDownloadWithProgress()">Continue & Download</button>
+                <button id="btn-continue-download" class="btn-danger" style="opacity: 0.5; cursor: not-allowed;" disabled onclick="startDownloadWithProgress()">Continue & Download</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Official Rules and Regulations Data Structure
+        // Rules Database
         const rulesDatabase = {
             "Article I": {
                 name: "Article I - Participation",
@@ -990,8 +1044,8 @@
         };
 
         let violationCounter = 0;
+        let selectedDownloadType = 'pdf';
 
-        // Dynamic Violation Row Addition (Up to 10)
         function addViolationRow() {
             const container = document.getElementById('violations-container');
             if (container.children.length >= 10) {
@@ -1067,24 +1121,32 @@
             document.getElementById('issued-month').value = monthNames[today.getMonth()];
             document.getElementById('issued-year').value = today.getFullYear();
             
-            // Add first violation row on load
             addViolationRow();
         });
 
-        // Dark Mode Toggle Logic
+        // Dark Mode Toggle Function
         function toggleDarkMode() {
             const currentTheme = document.body.getAttribute('data-theme');
-            const icon = document.getElementById('theme-icon');
-            const text = document.getElementById('theme-text');
+            const toggleBtns = document.querySelectorAll('.theme-toggle-btn, .login-toggle-btn');
 
             if (currentTheme === 'dark') {
                 document.body.removeAttribute('data-theme');
-                icon.innerText = '';
-                text.innerText = 'Dark';
+                toggleBtns.forEach(btn => {
+                    if (btn.querySelector('.theme-text')) {
+                        btn.querySelector('.theme-text').innerText = 'Dark Mode';
+                    } else {
+                        btn.innerText = 'Dark Mode';
+                    }
+                });
             } else {
                 document.body.setAttribute('data-theme', 'dark');
-                icon.innerText = '';
-                text.innerText = 'Light';
+                toggleBtns.forEach(btn => {
+                    if (btn.querySelector('.theme-text')) {
+                        btn.querySelector('.theme-text').innerText = 'Light Mode';
+                    } else {
+                        btn.innerText = 'Light Mode';
+                    }
+                });
             }
         }
 
@@ -1136,7 +1198,6 @@
             document.getElementById('doc-position').innerText = document.getElementById('member-position').value;
             document.getElementById('doc-address').innerText = document.getElementById('member-address').value;
 
-            // Collect all selected violation sections
             const secSelects = document.querySelectorAll('.sec-select');
             const selectedViolations = [];
             secSelects.forEach(select => {
@@ -1194,7 +1255,8 @@
             }, 20);
         }
 
-        function openPolicyModal() {
+        function openPolicyModal(type) {
+            selectedDownloadType = type || 'pdf';
             document.getElementById('chk-policy-1').checked = false;
             document.getElementById('chk-policy-2').checked = false;
             validatePolicies();
@@ -1221,13 +1283,19 @@
             }
         }
 
-        function startPDFDownloadWithProgress() {
+        function startDownloadWithProgress() {
             closePolicyModal();
-            triggerLoadingAnimation("Rendering & Downloading High Quality...", () => {
-                executePDFDownload();
+            const msg = selectedDownloadType === 'jpeg' ? "Rendering & Downloading Image..." : "Rendering & Downloading High Quality PDF...";
+            triggerLoadingAnimation(msg, () => {
+                if (selectedDownloadType === 'jpeg') {
+                    executeJPEGDownload();
+                } else {
+                    executePDFDownload();
+                }
             });
         }
 
+        // PDF Download Execution
         function executePDFDownload() {
             const element = document.getElementById('document-to-pdf');
 
@@ -1246,12 +1314,37 @@
                     logging: false,
                     scrollX: 0,
                     scrollY: 0,
-                    windowWidth: document.documentElement.offsetWidth
+                    windowWidth: 1024
                 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save();
+        }
+
+        // JPEG Download Execution
+        function executeJPEGDownload() {
+            const element = document.getElementById('document-to-pdf');
+
+            let filename = document.getElementById('pdf-filename').value.trim();
+            if (filename.toLowerCase().endsWith('.pdf')) {
+                filename = filename.substring(0, filename.length - 4);
+            }
+            if (!filename.toLowerCase().endsWith('.jpg') && !filename.toLowerCase().endsWith('.jpeg')) {
+                filename += '.jpg';
+            }
+
+            html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = canvas.toDataURL('image/jpeg', 1.0);
+                link.click();
+            });
         }
     </script>
 </body>
