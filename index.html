@@ -2,79 +2,369 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>929 Fire and Rescue Volunteer Group Inc.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>503 | 929 Fire & Rescue Volunteer  </title>
+
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="image/929.png.png">
   <link rel="apple-touch-icon" href="image/929.png.png">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="global-layout.css">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --primary-red:#ff2a2a;
+      --dark-red:#5d0000;
+      --glass-bg:rgba(255,255,255,0.08);
+      --glass-border:rgba(255,255,255,0.15);
+      --text-light:#f5f5f5;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Montserrat',sans-serif;
+      min-height:100vh;
+      overflow-x:hidden;
+      color:white;
+
+      background:
+      linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.88)),
+      url('929.png');
+
+      background-position:center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      background-attachment:fixed;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      padding:25px;
+      position:relative;
+    }
+
+    /* Animated Glow Effects */
+    body::before,
+    body::after{
+      content:'';
+      position:absolute;
+      border-radius:50%;
+      filter:blur(20px);
+      z-index:0;
+      animation:pulse 8s infinite ease-in-out;
+    }
+
+    body::before{
+      width:500px;
+      height:500px;
+      background:rgba(255,42,42,0.18);
+      top:-180px;
+      right:-120px;
+    }
+
+    body::after{
+      width:450px;
+      height:450px;
+      background:rgba(255,0,0,0.12);
+      bottom:-160px;
+      left:-120px;
+    }
+
+    @keyframes pulse{
+      0%{
+        transform:scale(1);
+        opacity:0.7;
+      }
+
+      50%{
+        transform:scale(1.1);
+        opacity:1;
+      }
+
+      100%{
+        transform:scale(1);
+        opacity:0.7;
+      }
+    }
+
+    /* Main Container */
+    .construction-container{
+      width:100%;
+      max-width:900px;
+
+      background:var(--glass-bg);
+
+      border:1px solid var(--glass-border);
+
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+
+      border-radius:30px;
+
+      padding:60px 50px;
+
+      text-align:center;
+
+      position:relative;
+      z-index:2;
+
+      box-shadow:
+      0 10px 40px rgba(0,0,0,0.45),
+      0 0 25px rgba(255,42,42,0.15);
+    }
+
+    /* Logo */
+    .logo{
+      width:95px;
+      height:95px;
+
+      object-fit:contain;
+
+      margin-bottom:22px;
+
+      animation:float 4s ease-in-out infinite;
+
+      filter:drop-shadow(0 0 15px rgba(255,42,42,0.35));
+    }
+
+    @keyframes float{
+      0%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(-8px);
+      }
+
+      100%{
+        transform:translateY(0px);
+      }
+    }
+
+    /* Small Heading */
+    .small-title{
+      font-size:0.9rem;
+      font-weight:700;
+      letter-spacing:4px;
+      text-transform:uppercase;
+
+      color:#ffb8b8;
+
+      margin-bottom:18px;
+    }
+
+    /* Main Title */
+    .main-title{
+      font-size:clamp(2.5rem, 7vw, 5.5rem);
+      font-weight:900;
+      line-height:1.05;
+
+      text-transform:uppercase;
+
+      margin-bottom:22px;
+
+      background:linear-gradient(to bottom,#ffffff,#ffc9c9);
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    /* Divider */
+    .divider{
+      width:120px;
+      height:5px;
+
+      margin:0 auto 35px;
+
+      border-radius:50px;
+
+      background:var(--primary-red);
+
+      box-shadow:0 0 15px rgba(255,42,42,0.7);
+    }
+
+    /* Description */
+    .description{
+      max-width:720px;
+
+      margin:auto;
+
+      color:var(--text-light);
+
+      font-size:1rem;
+      line-height:1.9;
+
+      opacity:0.92;
+    }
+
+    .description strong{
+      color:#ffffff;
+      font-weight:800;
+    }
+
+    /* Buttons */
+    .button-area{
+      margin-top:42px;
+    }
+
+    .home-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      gap:12px;
+
+      text-decoration:none;
+
+      color:white;
+
+      background:linear-gradient(135deg, #ff2a2a, #8b0000);
+
+      padding:16px 34px;
+
+      border-radius:60px;
+
+      font-size:0.95rem;
+      font-weight:800;
+
+      transition:0.3s ease;
+
+      box-shadow:0 12px 24px rgba(255,42,42,0.28);
+    }
+
+    .home-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 18px 35px rgba(255,42,42,0.42);
+    }
+
+    .arrow{
+      font-size:1.1rem;
+    }
+
+    /* Footer */
+    .footer-note{
+      margin-top:38px;
+
+      font-size:0.82rem;
+
+      opacity:0.65;
+
+      line-height:1.8;
+    }
+
+    /* MOBILE RESPONSIVE */
+    @media screen and (max-width:768px){
+
+      body{
+        padding:18px;
+        align-items:center;
+      }
+
+      .construction-container{
+        padding:45px 25px;
+        border-radius:24px;
+      }
+
+      .logo{
+        width:80px;
+        height:80px;
+      }
+
+      .small-title{
+        font-size:0.72rem;
+        letter-spacing:2.5px;
+      }
+
+      .main-title{
+        font-size:2.6rem;
+      }
+
+      .description{
+        font-size:0.93rem;
+        line-height:1.8;
+      }
+
+      .status-box{
+        width:100%;
+        font-size:0.8rem;
+        padding:14px 18px;
+      }
+
+      .home-btn{
+        width:100%;
+        padding:15px 20px;
+        font-size:0.9rem;
+      }
+
+      .footer-note{
+        font-size:0.72rem;
+      }
+    }
+
+    /* SMALL PHONES */
+    @media screen and (max-width:480px){
+
+      .construction-container{
+        padding:40px 20px;
+      }
+
+      .main-title{
+        font-size:2.2rem;
+      }
+
+      .description{
+        font-size:0.88rem;
+      }
+
+      .small-title{
+        line-height:1.6;
+      }
+    }
+
+  </style>
 </head>
+
 <body>
 
-  <!-- MASTER TRUE FULL-SCREEN HERO SLIDESHOW SHOWCASE -->
-  <header class="hero-showcase-master" id="home">
-    
-    <!-- 3 Full Size Active Slide Images (No Blur Engine on Image Layer) -->
-    <div class="hero-slide-container">
-      <div class="main-slide active" style="background-image: url('image/01.png');"></div>
-      <div class="main-slide" style="background-image: url('image/02.png');"></div>
-      <div class="main-slide" style="background-image: url('image/03.png');"></div>
+  <div class="construction-container">
+
+    <!-- Logo -->
+    <img src="image/929.png.png" alt="929 Logo" class="logo">
+
+    <!-- Small Title -->
+    <div class="small-title">
+      929 Fire & Rescue Volunteer & Radio Communication Inc.
     </div>
 
-    <!-- Protected Floating Content Card Layout (Dito lang nakalagay ang blur filtration effect para malinaw ang text) -->
-    <div class="hero-overlay-content">
-      <div class="text-glass-shield">
-         <!-- ETO YUNG LOGO SLOT SA ITAAS NG LEADING TITLE -->
-        <img src="image/929.png.png" alt="929 Fire Rescue Logo" class="hero-center-logo">
-        <h2>Leading the way in<br>Emergency Response.</h2>
-        <p>The <strong>929 Fire and Rescue Volunteer</strong> is a dedicated non-profit group committed to safeguarding lives and properties through prompt emergency response, community education, and proactive disaster preparedness.</p>
-      </div>
-    </div>
-  </header>
+    <!-- Main Title -->
+    <h1 class="main-title">
+      Under Maintenance!
+    </h1>
 
-  <!-- STRATEGIC CORE MAIN BODY CONTENT -->
-  <main class="about-section">
+    <!-- Description -->
+    <p class="description">
+     This website is currently undergoing scheduled maintenance and system upgrades until October 15, 2026. We are refreshing our design and improving functionality to provide you with a faster, more reliable, and better overall experience. Thank you for your patience!
+    </p>
 
-    
-    <!-- MISYON AT VISYON INFOCARDS -->
-    <div class="mv-grid">
-      <div class="mv-card">
-        <h3>OUR MISSION</h3>
-        <p>To serve our community with the highest level of care, protection, and education by providing timely and efficient emergency response and proactive safety awareness.</p>
-      </div>
-
-      <div class="mv-card">
-        <h3>OUR VISION</h3>
-        <p>To be a leading and trusted emergency service provider in the Philippines, driven by innovation, dedication, and excellence in public safety and education.</p>
-      </div>
+    <!-- Footer -->
+    <div class="footer-note">
+      © 2026 All rights reserved.
     </div>
 
-    <br>
+  </div>
 
-    <!-- FOUNDER BLOCK -->
-    <div class="founder-card">
-      <div class="founder-img-wrapper">
-        <div class="founder-img" style="background-image: url('image/9292.png');"></div>
-      </div>
-      <div class="founder-info">
-        <h3>AUGUSTO V. ALPASAN</h3>
-        <div class="role">Founder</div>
-        <p>recognized as the father of 929 volunteers, exemplified dedication through every challenge and bravery he faced. He risked everything to save lives during disasters, earning him the title of a hero. <br> <br> Now, his son, <strong>Aliant Anthony M. Alpasan</strong>, continues the legacy initiated by his father, ensuring that the 929 Fire and Rescue Volunteer and Radio Communication Organization remains a successful group dedicated to assisting our fellow citizens for free. Even in the absence of the father of 929, the organization continues to thrive, carrying on the mission that was started.</p>
-      </div>
-    </div>
-
-    <!-- PRESTIGE SEC CERTIFICATE SHOWCASE -->
-    <div class="sec-section">
-      <h3>SEC REGISTERED CORPORATION</h3>
-      <p>A historic milestone for the entire of the 929 Fire and Rescue Volunteer - Radio Communication Group Inc. We are officially registered and legally incorporated under the Securities and Exchange Commission as a legitimate, non-profit, non-governmental emergency institution.</p>
-      <div class="sec-number">SEC REG. NO.  2026050249789-03</div>
-      <p style="font-size: 0.85rem; color: #d4af37; opacity: 0.8; letter-spacing: 0.5px; margin-top: 10px;">Registered & Incorporated • Republic of the Philippines</p>
-    </div>
-
-  </main>
-
-  <!-- GLOBAL INITIALIZER SCRIPT -->
-  <script src="global-layout.js"></script>
 </body>
 </html>
