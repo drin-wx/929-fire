@@ -1,4 +1,0 @@
-# Block direct access to all JSON files
-<FilesMatch "\.json$">
-    Require all denied
-</FilesMatch>
